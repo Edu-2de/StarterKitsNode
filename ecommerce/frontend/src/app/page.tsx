@@ -1,23 +1,22 @@
-import Banner from "@/components/Banner";
-import MainContent from "@/components/MainContent";
+"use client";
+
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import Footer from "@/components/Footer";
+import MiniDashboard from "@/components/MiniDashboard";
 
 export default function Home() {
+
   return (
-    <>
-      <Banner />
-      <MainContent>
-        <section className="products-grid">
-          {[...Array(8)].map((_, i) => (
-            <div className="product-card" key={i}>
-              <div className="product-image" />
-              <div className="product-info">
-                <div className="product-title" />
-                <div className="product-price" />
-              </div>
-            </div>
-          ))}
-        </section>
-      </MainContent>
-    </>
+    <div className="flex flex-col min-h-screen bg-gray-50 main-bg">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <Features />
+        <MiniDashboard />
+      </main>
+      <Footer />
+    </div>
   );
 }
