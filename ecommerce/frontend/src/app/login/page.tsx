@@ -4,29 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login, register } from "@/api/auth"; // importa os fetchs
 
-// Hook de tema simples para alternar dark/light (usando body.dark-mode)
-function useLocalTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("theme") as "light" | "dark") || "light";
-    }
-    return "light";
-  });
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      document.body.classList.toggle("dark-mode", theme === "dark");
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme]);
-
-  function toggleTheme() {
-    setTheme((t) => (t === "light" ? "dark" : "light"));
-  }
-
-  return { theme, toggleTheme };
-}
-
 type AnimState =
   | null
   | "kick-email"
@@ -59,21 +36,18 @@ export default function LoginPage() {
   const [registerFields, setRegisterFields] = useState(["nome", "email", "senha", "confirm"]);
 
   // Hover/click da logo
-  const logoWord = "Organizo".split("");
+  const logoWord = "Logo".split("");
   const [hoveredLetter, setHoveredLetter] = useState<number | null>(0);
-
-  // Tema
-  const { theme, toggleTheme } = useLocalTheme();
 
   // Salva a letra clicada no localStorage
   useEffect(() => {
-    const saved = localStorage.getItem("organizo-highlight");
+    const saved = localStorage.getItem("logo-highlight");
     if (saved !== null) setHoveredLetter(Number(saved));
     else setHoveredLetter(0);
   }, []);
   function handleLogoClick(idx: number) {
     setHoveredLetter(idx);
-    localStorage.setItem("organizo-highlight", String(idx));
+    localStorage.setItem("logo-highlight", String(idx));
   }
 
   // Controla exibição dos blocos
@@ -193,10 +167,8 @@ export default function LoginPage() {
     <main
       className={`
         min-h-screen flex items-center justify-center
-        bg-gradient-to-br
-        from-[#F6F5F2] via-[#fff9e7] to-[#A9C5A0]/30
+        bg-gradient-to-br from-neutral-100 via-neutral-50 to-neutral-200
         px-4 relative overflow-hidden transition-colors
-        dark-mode-bg
       `}
     >
       {/* Botão voltar para Home */}
@@ -204,78 +176,55 @@ export default function LoginPage() {
         href="/"
         className={`
           fixed left-4 top-4 sm:left-8 sm:top-8 w-10 h-10 flex items-center justify-center
-          rounded-full bg-white/90 shadow border border-[#E9C46A]/40 z-20
-          hover:bg-[#E9C46A]/90 transition group
+          rounded-full bg-white/90 shadow border border-neutral-200 z-20
+          hover:bg-neutral-200 transition group
         `}
         tabIndex={0}
         aria-label="Voltar para Home"
       >
-        <span className="text-2xl text-[#264653] group-hover:text-white transition select-none font-bold">×</span>
+        <span className="text-2xl text-neutral-700 group-hover:text-neutral-900 transition select-none font-bold">×</span>
       </Link>
 
-      {/* Botão de alternar tema */}
-      <button
-        onClick={toggleTheme}
-        className={`
-          fixed right-4 top-4 sm:right-8 sm:top-8 w-10 h-10 flex items-center justify-center
-          rounded-full bg-white/90 shadow border border-[#E9C46A]/40 z-20
-          hover:bg-[#E9C46A]/90 transition
-        `}
-        aria-label="Alternar tema"
-        type="button"
-      >
-        <span className="text-xl font-bold select-none">
-          {theme === "dark" ? "🌙" : "☀️"}
-        </span>
-      </button>
-
       {/* Animated Blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#E9C46A]/30 hero-softshape-1 rounded-full filter blur-3xl animate-pulse z-0 dark-mode-blob1" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#264653]/30 hero-softshape-2 rounded-full filter blur-3xl animate-pulse z-0 dark-mode-blob2" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#A9C5A0]/20 hero-softshape-3 rounded-full filter blur-2xl animate-spin-slow z-0 dark-mode-blob3" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-neutral-200/40 rounded-full filter blur-3xl animate-pulse z-0" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-neutral-300/40 rounded-full filter blur-3xl animate-pulse z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-neutral-100/40 rounded-full filter blur-2xl animate-spin-slow z-0" />
 
       <div className={`
         w-full max-w-md
-        bg-white/90 hero-card
+        bg-white/90
         rounded-2xl shadow-2xl p-8 flex flex-col gap-6 relative z-10
         animate-fade-in-down overflow-hidden min-h-[420px]
-        border border-[#E9C46A]/20
-        dark-mode-card
+        border border-neutral-200
       `}>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-5xl sm:text-6xl font-extrabold text-[#264653] select-none drop-shadow-lg animate-bounce mb-1 dark-mode-logo">
+          <span className="text-5xl sm:text-6xl font-extrabold text-neutral-700 select-none drop-shadow-lg mb-1">
             {logoWord.map((letra, idx) => (
               <span
                 key={idx}
-                className={`
-                  transition-colors duration-150 cursor-pointer px-1
-                  ${
-                    hoveredLetter === idx
-                      ? (theme === "dark"
-                        ? "text-[#2a9df4] logo-o-dark"
-                        : "text-[#E9C46A] logo-o")
-                      : (theme === "dark"
-                        ? "text-[#AEE2FF] logo-text-dark"
-                        : "text-[#264653] logo-text-light")
-                  }
-                  dark-mode-logo-letter
-                `}
+                className="cursor-pointer px-1 animate-logo-letter"
                 onMouseEnter={() => setHoveredLetter(idx)}
                 onMouseLeave={() =>
                   setHoveredLetter(
-                    localStorage.getItem("organizo-highlight") !== null
-                      ? Number(localStorage.getItem("organizo-highlight"))
+                    localStorage.getItem("logo-highlight") !== null
+                      ? Number(localStorage.getItem("logo-highlight"))
                       : 0
                   )
                 }
                 onClick={() => handleLogoClick(idx)}
-                style={{ userSelect: "none" }}
+                style={{
+                  userSelect: "none",
+                  animation:
+                    hoveredLetter === idx
+                      ? "logo-bounce 0.4s cubic-bezier(.5,1.7,.5,1) both"
+                      : undefined,
+                }}
               >
                 {letra}
               </span>
             ))}
           </span>
-          <span className="text-lg text-[#264653b2] font-medium animate-fade-in logo-text-light dark-mode-logo-sub">
+          <span className="text-lg text-neutral-500 font-medium animate-fade-in">
             {isRegister ? "Crie sua conta" : "Entre na sua conta"}
           </span>
         </div>
@@ -288,9 +237,8 @@ export default function LoginPage() {
                   className={`
                     font-semibold transition-colors
                     ${focusField === "email"
-                      ? "text-[#E9C46A]"
-                      : "text-[#264653]"}
-                    dark-mode-label
+                      ? "text-neutral-400"
+                      : "text-neutral-700"}
                   `}
                 >
                   E-mail
@@ -301,14 +249,13 @@ export default function LoginPage() {
                   className={`
                     px-4 py-3 rounded border
                     bg-white
-                    text-base text-[#264653]
-                    placeholder-[#26465399]
+                    text-base text-neutral-700
+                    placeholder-neutral-400
                     focus:outline-none focus:ring-2 transition
-                    border-[#E9C46A]/30
-                    focus:ring-[#E9C46A]/60
+                    border-neutral-200
+                    focus:ring-neutral-300
                     shadow-sm group-hover:scale-105 duration-200
-                    ${focusField === "email" ? "ring-2 ring-[#E9C46A]" : ""}
-                    dark-mode-input
+                    ${focusField === "email" ? "ring-2 ring-neutral-400" : ""}
                   `}
                   placeholder="seu@email.com"
                   value={email}
@@ -325,9 +272,8 @@ export default function LoginPage() {
                   className={`
                     font-semibold transition-colors
                     ${focusField === "senha"
-                      ? "text-[#E9C46A]"
-                      : "text-[#264653]"}
-                    dark-mode-label
+                      ? "text-neutral-400"
+                      : "text-neutral-700"}
                   `}
                 >
                   Senha
@@ -338,14 +284,13 @@ export default function LoginPage() {
                   className={`
                     px-4 py-3 rounded border
                     bg-white
-                    text-base text-[#264653]
-                    placeholder-[#26465399]
+                    text-base text-neutral-700
+                    placeholder-neutral-400
                     focus:outline-none focus:ring-2 transition
-                    border-[#E9C46A]/30
-                    focus:ring-[#E9C46A]/60
+                    border-neutral-200
+                    focus:ring-neutral-300
                     shadow-sm group-hover:scale-105 duration-200
-                    ${focusField === "senha" ? "ring-2 ring-[#E9C46A]" : ""}
-                    dark-mode-input
+                    ${focusField === "senha" ? "ring-2 ring-neutral-400" : ""}
                   `}
                   placeholder="Sua senha"
                   value={senha}
@@ -357,7 +302,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   tabIndex={-1}
-                  className="absolute right-3 top-9 text-[#E9C46A] hover:text-[#264653] transition"
+                  className="absolute right-3 top-9 text-neutral-400 hover:text-neutral-700 transition"
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                   disabled={!!animState}
@@ -373,22 +318,22 @@ export default function LoginPage() {
             {loginFields.length === 2 && (
               <button
                 type="submit"
-                className="w-full px-4 py-3 rounded-full bg-[#E9C46A] text-[#264653] font-bold text-base hover:bg-[#E9C46A]/80 transition shadow-lg hover:scale-105 active:scale-95 duration-150 main-btn dark-mode-btn"
+                className="w-full px-4 py-3 rounded-full bg-neutral-700 text-white font-bold text-base hover:bg-neutral-800 transition shadow-lg hover:scale-105 active:scale-95 duration-150"
                 disabled={!!animState}
               >
                 Entrar
               </button>
             )}
             {msg && (
-              <span className="text-[#264653] text-sm font-semibold text-center mt-1 animate-pulse dark-mode-label">
+              <span className="text-neutral-700 text-sm font-semibold text-center mt-1 animate-pulse">
                 {msg}
               </span>
             )}
             {loginFields.length === 2 && (
-              <div className="text-center text-[#264653b2] text-base mt-2 animate-fade-in dark-mode-label">
+              <div className="text-center text-neutral-500 text-base mt-2 animate-fade-in">
                 Não tem uma conta?{" "}
                 <button
-                  className="text-[#E9C46A] font-bold hover:underline hover:text-[#264653] transition"
+                  className="text-neutral-700 font-bold hover:underline hover:text-neutral-400 transition"
                   onClick={kickSwitchForm}
                   disabled={!!animState}
                 >
@@ -407,9 +352,8 @@ export default function LoginPage() {
                   className={`
                     font-semibold transition-colors
                     ${focusField === "nome"
-                      ? "text-[#E9C46A]"
-                      : "text-[#264653]"}
-                    dark-mode-label
+                      ? "text-neutral-400"
+                      : "text-neutral-700"}
                   `}
                 >
                   Nome
@@ -420,14 +364,13 @@ export default function LoginPage() {
                   className={`
                     px-4 py-3 rounded border
                     bg-white
-                    text-base text-[#264653]
-                    placeholder-[#26465399]
+                    text-base text-neutral-700
+                    placeholder-neutral-400
                     focus:outline-none focus:ring-2 transition
-                    border-[#E9C46A]/30
-                    focus:ring-[#E9C46A]/60
+                    border-neutral-200
+                    focus:ring-neutral-300
                     shadow-sm group-hover:scale-105 duration-200
-                    ${focusField === "nome" ? "ring-2 ring-[#E9C46A]" : ""}
-                    dark-mode-input
+                    ${focusField === "nome" ? "ring-2 ring-neutral-400" : ""}
                   `}
                   placeholder="Seu nome"
                   value={nome}
@@ -444,9 +387,8 @@ export default function LoginPage() {
                   className={`
                     font-semibold transition-colors
                     ${focusField === "email"
-                      ? "text-[#E9C46A]"
-                      : "text-[#264653]"}
-                    dark-mode-label
+                      ? "text-neutral-400"
+                      : "text-neutral-700"}
                   `}
                 >
                   E-mail
@@ -457,14 +399,13 @@ export default function LoginPage() {
                   className={`
                     px-4 py-3 rounded border
                     bg-white
-                    text-base text-[#264653]
-                    placeholder-[#26465399]
+                    text-base text-neutral-700
+                    placeholder-neutral-400
                     focus:outline-none focus:ring-2 transition
-                    border-[#E9C46A]/30
-                    focus:ring-[#E9C46A]/60
+                    border-neutral-200
+                    focus:ring-neutral-300
                     shadow-sm group-hover:scale-105 duration-200
-                    ${focusField === "email" ? "ring-2 ring-[#E9C46A]" : ""}
-                    dark-mode-input
+                    ${focusField === "email" ? "ring-2 ring-neutral-400" : ""}
                   `}
                   placeholder="seu@email.com"
                   value={email}
@@ -481,9 +422,8 @@ export default function LoginPage() {
                   className={`
                     font-semibold transition-colors
                     ${focusField === "senha"
-                      ? "text-[#E9C46A]"
-                      : "text-[#264653]"}
-                    dark-mode-label
+                      ? "text-neutral-400"
+                      : "text-neutral-700"}
                   `}
                 >
                   Senha
@@ -494,14 +434,13 @@ export default function LoginPage() {
                   className={`
                     px-4 py-3 rounded border
                     bg-white
-                    text-base text-[#264653]
-                    placeholder-[#26465399]
+                    text-base text-neutral-700
+                    placeholder-neutral-400
                     focus:outline-none focus:ring-2 transition
-                    border-[#E9C46A]/30
-                    focus:ring-[#E9C46A]/60
+                    border-neutral-200
+                    focus:ring-neutral-300
                     shadow-sm group-hover:scale-105 duration-200
-                    ${focusField === "senha" ? "ring-2 ring-[#E9C46A]" : ""}
-                    dark-mode-input
+                    ${focusField === "senha" ? "ring-2 ring-neutral-400" : ""}
                   `}
                   placeholder="Crie uma senha"
                   value={senha}
@@ -513,7 +452,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   tabIndex={-1}
-                  className="absolute right-3 top-9 text-[#E9C46A] hover:text-[#264653] transition"
+                  className="absolute right-3 top-9 text-neutral-400 hover:text-neutral-700 transition"
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                   disabled={!!animState}
@@ -528,11 +467,11 @@ export default function LoginPage() {
             )}
             {registerFields.includes("confirm") && (
               <label className={`flex flex-col gap-1 group transition-all duration-300 ${getKickClass("confirm")}`}>
-                <span className="font-semibold text-[#264653] dark-mode-label">Confirmar senha</span>
+                <span className="font-semibold text-neutral-700">Confirmar senha</span>
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  className="px-4 py-3 rounded border bg-white text-base text-[#264653] placeholder-[#26465399] focus:outline-none focus:ring-2 border-[#E9C46A]/30 focus:ring-[#E9C46A]/60 shadow-sm group-hover:scale-105 duration-200 dark-mode-input"
+                  className="px-4 py-3 rounded border bg-white text-base text-neutral-700 placeholder-neutral-400 focus:outline-none focus:ring-2 border-neutral-200 focus:ring-neutral-300 shadow-sm group-hover:scale-105 duration-200"
                   placeholder="Repita a senha"
                   value={confirmSenha}
                   onChange={e => setConfirmSenha(e.target.value)}
@@ -543,22 +482,22 @@ export default function LoginPage() {
             {registerFields.length === 4 && (
               <button
                 type="submit"
-                className="w-full px-4 py-3 rounded-full bg-[#264653] text-[#E9C46A] font-bold text-base hover:bg-[#264653]/90 transition shadow-lg hover:scale-105 active:scale-95 duration-150 main-btn dark-mode-btn"
+                className="w-full px-4 py-3 rounded-full bg-neutral-700 text-white font-bold text-base hover:bg-neutral-800 transition shadow-lg hover:scale-105 active:scale-95 duration-150"
                 disabled={!!animState}
               >
                 Cadastrar
               </button>
             )}
             {registerMsg && (
-              <span className="text-[#264653] text-sm font-semibold text-center mt-1 animate-pulse dark-mode-label">
+              <span className="text-neutral-700 text-sm font-semibold text-center mt-1 animate-pulse">
                 {registerMsg}
               </span>
             )}
             {registerFields.length === 4 && (
-              <div className="text-center text-[#264653b2] text-base mt-2 animate-fade-in dark-mode-label">
+              <div className="text-center text-neutral-500 text-base mt-2 animate-fade-in">
                 Já tem uma conta?{" "}
                 <button
-                  className="text-[#E9C46A] font-bold hover:underline hover:text-[#264653] transition"
+                  className="text-neutral-700 font-bold hover:underline hover:text-neutral-400 transition"
                   onClick={kickSwitchForm}
                   disabled={!!animState}
                 >
@@ -569,7 +508,7 @@ export default function LoginPage() {
           </form>
         )}
       </div>
-      {/* Tailwind Animations + Dark Mode */}
+      {/* Tailwind Animations */}
       <style jsx global>{`
         @keyframes fade-in-down {
           0% {
@@ -614,50 +553,32 @@ export default function LoginPage() {
         .animate-chutao-in {
           animation: chutao-in 0.5s cubic-bezier(.7,0,.3,1) both;
         }
-        body.dark-mode {
-          background: #101624 !important;
+        @keyframes logo-fade {
+          0% { letter-spacing: 0.2em; opacity: 0.7;}
+          100% { letter-spacing: 0em; opacity: 1;}
         }
-        body.dark-mode .dark-mode-bg {
-          background: linear-gradient(135deg, #101624 0%, #181B2A 60%, #23283B 100%) !important;
+        .animate-logo-fade {
+          animation: logo-fade 1.2s cubic-bezier(.4,2,.6,.9) both;
         }
-        body.dark-mode .dark-mode-card {
-          background: #181B2A !important;
-          border-color: #2a9df4 !important;
+        .animate-logo-letter {
+          transition: color 0.2s;
         }
-        body.dark-mode .dark-mode-btn {
-          background: #2a9df4 !important;
-          color: #181B2A !important;
-        }
-        body.dark-mode .dark-mode-label,
-        body.dark-mode .dark-mode-logo-sub {
-          color: #AEE2FF !important;
-        }
-        body.dark-mode .dark-mode-logo,
-        body.dark-mode .dark-mode-logo-letter {
-          color: #AEE2FF !important;
-        }
-        body.dark-mode .logo-o-dark {
-          color: #2a9df4 !important;
-        }
-        body.dark-mode .dark-mode-input {
-          background: #23283B !important;
-          color: #AEE2FF !important;
-          border-color: #2a9df4 !important;
-        }
-        body.dark-mode .dark-mode-input::placeholder {
-          color: #AEE2FF77 !important;
-        }
-        body.dark-mode .dark-mode-blob1 {
-          background: #2a9df433 !important;
-        }
-        body.dark-mode .dark-mode-blob2 {
-          background: #23283B99 !important;
-        }
-        body.dark-mode .dark-mode-blob3 {
-          background: #2a9df41a !important;
-        }
-        body.dark-mode .dark-mode-logo-letter:hover {
-          color: #2a9df4 !important;
+        @keyframes logo-bounce {
+          0% {
+            transform: translateY(0);
+          }
+          30% {
+            transform: translateY(-18%);
+          }
+          50% {
+            transform: translateY(-28%);
+          }
+          70% {
+            transform: translateY(-18%);
+          }
+          100% {
+            transform: translateY(0);
+          }
         }
       `}</style>
     </main>

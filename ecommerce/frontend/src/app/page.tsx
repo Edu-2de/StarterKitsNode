@@ -6,7 +6,8 @@ import NewProductsCarousel from "@/components/NewProductsCarousel";
 import Footer from "@/components/Footer";
 import PopularProductsCarousel from "@/components/PopularProductsCarousel";
 import CategoriesShowcase from "@/components/CategoriesShowcase";
-
+import Testimonials from "@/components/Testimonials";
+import BenefitsSection from "@/components/BenefitsSection";
 export default function Home() {
 
   return (
@@ -16,7 +17,9 @@ export default function Home() {
         <Hero />
         <CategoriesShowcase />
         <NewProductsCarousel />
+        <BenefitsSection />
         <PopularProductsCarousel />
+        <Testimonials />
       </main>
       <Footer />
     </div>
