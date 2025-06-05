@@ -2,9 +2,10 @@
 
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Features from "@/components/Features";
+import NewProductsCarousel from "@/components/NewProductsCarousel";
 import Footer from "@/components/Footer";
-import MiniDashboard from "@/components/MiniDashboard";
+import PopularProductsCarousel from "@/components/PopularProductsCarousel";
+import CategoriesShowcase from "@/components/CategoriesShowcase";
 
 export default function Home() {
 
@@ -13,8 +14,9 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <Features />
-        <MiniDashboard />
+        <CategoriesShowcase />
+        <NewProductsCarousel />
+        <PopularProductsCarousel />
       </main>
       <Footer />
     </div>

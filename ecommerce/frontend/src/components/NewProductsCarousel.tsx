@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 
 const mockProducts = [
   { id: 1 },
@@ -23,7 +23,7 @@ function getVisibleCount(width: number) {
   return visibleCountDesktop;
 }
 
-export default function MiniDashboard() {
+export default function NewProductsCarousel() {
   // Responsividade
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
@@ -36,10 +36,7 @@ export default function MiniDashboard() {
       setVisibleCount(getVisibleCount(window.innerWidth));
     }
     window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Carousel state
@@ -65,7 +62,33 @@ export default function MiniDashboard() {
   ];
   const realIndex = index + visibleCount;
 
+  // Card/gap config - agora maior para desktop
+  // Máximo seguro para 4 cards no desktop: containerWidth = 1200px (max-w-7xl)
+  // 4*280 + 3*32 = 1120 + 96 = 1216 (pode ajustar para caber melhor em 1280)
+  const cardWidth =
+    windowWidth >= 1024
+      ? 288 // maior card para desktop, cabe em max-w-7xl (1280)
+      : windowWidth >= 640
+      ? 320 // tablet
+      : windowWidth - 48; // mobile ocupa quase tela toda
+  const gap = windowWidth >= 1024 ? 32 : windowWidth >= 640 ? 32 : 16;
+  const slideWidth = cardWidth + gap;
+
+  // containerWidth = largura dos visíveis + gaps entre eles (N-1)
+  const containerWidth = visibleCount * cardWidth + (visibleCount - 1) * gap;
+
+  // O translateX deve alinhar o primeiro card exatamente à esquerda do container
+  const translate =
+    -realIndex * slideWidth +
+    (isDragging && dragStartX !== null ? dragDelta : 0);
+
   // Auto-slide
+  const handleNext = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setIndex((prev) => prev + 1);
+  }, [isTransitioning]);
+
   useEffect(() => {
     autoSlideRef.current = setInterval(() => {
       handleNext();
@@ -75,32 +98,25 @@ export default function MiniDashboard() {
         clearInterval(autoSlideRef.current);
       }
     };
-  }, [handleNext, index, isTransitioning, visibleCount]);
+  }, [handleNext]);
 
   // Handle transition end for infinite effect
   function handleTransitionEnd() {
     setIsTransitioning(false);
     if (index < 0) {
-      setIndex(total - 1);
+      setIndex(total - visibleCount);
     } else if (index >= total) {
       setIndex(0);
     }
   }
 
-  // Next/Prev logic
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function handleNext() {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setIndex((prev) => prev + 1);
-  }
   function handlePrev() {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setIndex((prev) => prev - 1);
   }
 
-  // Drag/Touch logic (corrigido para não conflitar mouse/touch)
+  // Drag/Touch logic
   function handlePointerDown(e: React.PointerEvent) {
     if (isTransitioning) return;
     setIsDragging(true);
@@ -126,28 +142,17 @@ export default function MiniDashboard() {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
   }
 
-  // Calculate translateX
-  const slideWidth =
-    (windowWidth >= 1024
-      ? 340
-      : windowWidth >= 640
-      ? 280
-      : windowWidth - 48) + 40; // card width + gap (px)
-  const translate =
-    -realIndex * slideWidth +
-    (isDragging && dragStartX !== null ? dragDelta : 0);
-
   return (
     <section className="relative py-12 sm:py-16 md:py-20 bg-neutral-50 select-none">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="flex items-center mb-8 md:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-700 tracking-tight text-left">
-            Populares
+            Novidades
           </h2>
           <div className="flex-1 border-b border-neutral-200 ml-4 sm:ml-6" />
         </div>
         <div className="relative">
-          {/* Carousel Controls - sempre dentro do carousel */}
+          {/* Carousel Controls */}
           <button
             className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-neutral-100 border border-neutral-200 shadow px-2.5 py-2.5 rounded-full transition"
             onClick={handlePrev}
@@ -172,18 +177,24 @@ export default function MiniDashboard() {
           </button>
           {/* Carousel */}
           <div
-            className="overflow-hidden"
+            className="overflow-hidden mx-auto"
             ref={listRef}
-            style={{ cursor: isDragging ? "grabbing" : "grab" }}
+            style={{
+              cursor: isDragging ? "grabbing" : "grab",
+              width: containerWidth,
+              maxWidth: "100%",
+              boxSizing: "content-box",
+            }}
           >
             <div
               className={`
-                flex gap-6 sm:gap-8 md:gap-10
+                flex
+                ${windowWidth >= 640 ? "gap-8" : "gap-4"}
                 ${isTransitioning ? "transition-transform duration-400 ease-in-out" : ""}
                 ${isDragging ? "select-none pointer-events-none" : ""}
               `}
               style={{
-                minHeight: windowWidth < 640 ? 260 : 320,
+                minHeight: windowWidth < 640 ? 260 : 340,
                 willChange: "transform",
                 transform: `translateX(${translate}px)`,
               }}
@@ -202,16 +213,16 @@ export default function MiniDashboard() {
                     transition-all duration-300
                     cursor-pointer
                     ${windowWidth >= 1024
-                      ? "min-w-[340px] max-w-[340px]"
+                      ? "min-w-[288px] max-w-[288px]"
                       : windowWidth >= 640
-                      ? "min-w-[280px] max-w-[280px]"
+                      ? "min-w-[320px] max-w-[320px]"
                       : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                     w-full
                     ${hovered === product.id ? "scale-[1.045] shadow-xl border-neutral-300" : ""}
                     ${selected === product.id ? "ring-2 ring-neutral-400" : ""}
                   `}
                   style={{
-                    minHeight: windowWidth < 640 ? 220 : 320,
+                    minHeight: windowWidth < 640 ? 220 : 340,
                     padding: windowWidth < 640
                       ? "1.2rem 0.7rem 1.1rem 0.7rem"
                       : "2.2rem 1.5rem 1.7rem 1.5rem",
@@ -238,7 +249,7 @@ export default function MiniDashboard() {
                   {/* Nome e preço mock */}
                   <div className="w-full text-center">
                     <div className={`font-semibold text-neutral-700 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
-                      Produto Popular {product.id}
+                      Produto {product.id}
                     </div>
                     <div className={`text-neutral-400 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
                       R$ --
@@ -256,13 +267,15 @@ export default function MiniDashboard() {
                       Ver detalhes
                     </button>
                   </div>
-                  {/* Aqui não tem badge "Novo" */}
+                  {/* Badge de novo */}
+                  <span className="absolute top-4 left-4 bg-neutral-200 text-neutral-500 text-xs font-bold px-3 py-1 rounded-full select-none">
+                    Novo
+                  </span>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        {/* Dots removidos */}
       </div>
     </section>
   );

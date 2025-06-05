@@ -23,7 +23,7 @@ function getVisibleCount(width: number) {
   return visibleCountDesktop;
 }
 
-export default function Features() {
+export default function PopularProductsCarousel() {
   // Responsividade
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
@@ -52,7 +52,6 @@ export default function Features() {
   const [isDragging, setIsDragging] = useState(false);
 
   const listRef = useRef<HTMLDivElement>(null);
-  const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
 
   // For infinite effect, clone first and last N items
   const total = mockProducts.length;
@@ -63,68 +62,29 @@ export default function Features() {
   ];
   const realIndex = index + visibleCount;
 
-  // Card/gap config
+  // Card/gap config igual Features
   const cardWidth =
     windowWidth >= 1024
-      ? 300
+      ? 288
       : windowWidth >= 640
-      ? 260
+      ? 320
       : windowWidth - 48;
-  const gap = windowWidth >= 1024 ? 32 : windowWidth >= 640 ? 24 : 16;
+  const gap = windowWidth >= 1024 ? 32 : windowWidth >= 640 ? 32 : 16;
   const slideWidth = cardWidth + gap;
-
-  // O containerWidth agora é só a soma dos cards + gaps (sem gap extra no fim)
   const containerWidth = visibleCount * cardWidth + (visibleCount - 1) * gap;
 
-  // O segredo: paddingLeft = 0, translateX ajustado para mostrar só os 4 do meio
-  // O valor de translateX é ajustado para alinhar o primeiro card perfeitamente à esquerda do container
-  // Corrige bug de corte do primeiro card em todos os slides
-  // O truque: soma o gap/2 para compensar o gap do flex (gap é aplicado entre os cards, não nas bordas)
-  const gapOffset = windowWidth >= 1024 ? gap / 2 : windowWidth >= 640 ? gap / 2 : 0;
+  // O translateX deve alinhar o primeiro card exatamente à esquerda do container
   const translate =
-    -(realIndex * slideWidth - gapOffset) +
+    -realIndex * slideWidth +
     (isDragging && dragStartX !== null ? dragDelta : 0);
 
-  // Corrige bug visual ao pular para o início/fim: remove transição ao resetar index
-  useEffect(() => {
-    if (!isTransitioning) return;
-    let timeout: NodeJS.Timeout | null = null;
-    if (index < 0 || index >= total) {
-      timeout = setTimeout(() => {
-        setIsTransitioning(false);
-        if (index < 0) setIndex(total - visibleCount);
-        else if (index >= total) setIndex(0);
-      }, transitionTime);
-    }
-    return () => {
-      if (timeout) clearTimeout(timeout);
-    };
-    // eslint-disable-next-line
-  }, [index, isTransitioning, total, visibleCount]);
-
-  // Auto-slide (corrigido para não bugar ao resetar)
-  useEffect(() => {
-    if (isDragging) return;
-    autoSlideRef.current = setInterval(() => {
-      if (!isTransitioning) {
-        setIsTransitioning(true);
-        setIndex((prev) => prev + 1);
-      }
-    }, 4000);
-    return () => {
-      if (autoSlideRef.current) clearInterval(autoSlideRef.current);
-    };
-  }, [isTransitioning, isDragging]);
-
+  // Handle transition end for infinite effect
   function handleTransitionEnd() {
+    setIsTransitioning(false);
     if (index < 0) {
-      setIsTransitioning(false);
       setIndex(total - visibleCount);
     } else if (index >= total) {
-      setIsTransitioning(false);
       setIndex(0);
-    } else {
-      setIsTransitioning(false);
     }
   }
 
@@ -133,7 +93,6 @@ export default function Features() {
     setIsTransitioning(true);
     setIndex((prev) => prev + 1);
   }
-
   function handlePrev() {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -171,7 +130,7 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="flex items-center mb-8 md:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-700 tracking-tight text-left">
-            Novidades
+            Populares
           </h2>
           <div className="flex-1 border-b border-neutral-200 ml-4 sm:ml-6" />
         </div>
@@ -208,18 +167,17 @@ export default function Features() {
               width: containerWidth,
               maxWidth: "100%",
               boxSizing: "content-box",
-              paddingLeft: 0,
             }}
           >
             <div
               className={`
                 flex
-                ${windowWidth >= 640 ? "gap-6" : "gap-4"}
+                ${windowWidth >= 640 ? "gap-8" : "gap-4"}
                 ${isTransitioning ? "transition-transform duration-400 ease-in-out" : ""}
                 ${isDragging ? "select-none pointer-events-none" : ""}
               `}
               style={{
-                minHeight: windowWidth < 640 ? 260 : 320,
+                minHeight: windowWidth < 640 ? 260 : 340,
                 willChange: "transform",
                 transform: `translateX(${translate}px)`,
               }}
@@ -238,16 +196,16 @@ export default function Features() {
                     transition-all duration-300
                     cursor-pointer
                     ${windowWidth >= 1024
-                      ? "min-w-[300px] max-w-[300px]"
+                      ? "min-w-[288px] max-w-[288px]"
                       : windowWidth >= 640
-                      ? "min-w-[260px] max-w-[260px]"
+                      ? "min-w-[320px] max-w-[320px]"
                       : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                     w-full
                     ${hovered === product.id ? "scale-[1.045] shadow-xl border-neutral-300" : ""}
                     ${selected === product.id ? "ring-2 ring-neutral-400" : ""}
                   `}
                   style={{
-                    minHeight: windowWidth < 640 ? 220 : 320,
+                    minHeight: windowWidth < 640 ? 220 : 340,
                     padding: windowWidth < 640
                       ? "1.2rem 0.7rem 1.1rem 0.7rem"
                       : "2.2rem 1.5rem 1.7rem 1.5rem",
@@ -274,7 +232,7 @@ export default function Features() {
                   {/* Nome e preço mock */}
                   <div className="w-full text-center">
                     <div className={`font-semibold text-neutral-700 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
-                      Produto {product.id}
+                      Produto Popular {product.id}
                     </div>
                     <div className={`text-neutral-400 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
                       R$ --
@@ -292,10 +250,7 @@ export default function Features() {
                       Ver detalhes
                     </button>
                   </div>
-                  {/* Badge de novo */}
-                  <span className="absolute top-4 left-4 bg-neutral-200 text-neutral-500 text-xs font-bold px-3 py-1 rounded-full select-none">
-                    Novo
-                  </span>
+                  {/* Sem badge "Novo" */}
                 </div>
               ))}
             </div>
