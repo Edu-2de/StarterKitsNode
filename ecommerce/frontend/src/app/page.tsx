@@ -21,9 +21,6 @@ export default function Home() {
         <PopularProductsCarousel />
         <Testimonials />
       </main>
-      <div className="bg-primary text-white p-4">Teste cor primária</div>
-      <div className="bg-[color:var(--tw-color-primary)] text-white p-4">Teste cor primária via arbitrary</div>
-      <div className="bg-red-500 text-white p-4">Teste Tailwind padrão</div>
       <Footer />
       
     </div>
