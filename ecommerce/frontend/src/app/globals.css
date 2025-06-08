@@ -34,44 +34,9 @@ header {
   transition: color 0.2s;
 }
 
-/* Cards e menus */
-.bg-white,
-.bg-white\/90,
-.bg-white\/80 {
-  background: #fff !important;
-  color: #22223B !important;
-}
-.shadow,
-.shadow-md,
-.shadow-lg {
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08) !important;
-}
+/* NÃO sobrescreva as classes do Tailwind! Removido !important e regras globais de cor */
 
-/* Botões principais */
-.main-btn {
-  background: var(--color-blue) !important;
-  color: #fff !important;
-  border: none !important;
-  box-shadow: 0 2px 8px 0 rgba(42,157,244,0.15) !important;
-  transition: background 0.2s, color 0.2s;
-}
-.main-btn:hover {
-  background: #2490db !important;
-  color: #fff !important;
-}
-
-/* Links */
-a {
-  color: var(--color-graphite);
-  transition: color 0.2s;
-}
-
-/* Utilitários */
-.dark-text {
-  color: #264653 !important;
-}
-
-/* Animações usadas no login e carrosséis */
+/* Somente animações e utilitários customizados */
 @keyframes fade-in-down {
   0% {
     opacity: 0;
@@ -133,62 +98,9 @@ a {
   100% { transform: translateY(0);}
 }
 
-/* Ajustes para carrosséis e cards */
-.border-neutral-200 {
-  border-color: #e5e5e5 !important;
-}
-.bg-neutral-50,
-.bg-neutral-100 {
-  background: #fafafa !important;
-}
-.text-neutral-700,
-.text-neutral-800 {
-  color: #22223B !important;
-}
-.text-neutral-400,
-.text-neutral-500 {
-  color: #888 !important;
-}
-.bg-white {
-  background: #fff !important;
-}
-.shadow-lg {
-  box-shadow: 0 4px 32px 0 #10121A11 !important;
-}
-
 /* Remove outline azul do Chrome em botões e inputs */
 button:focus,
 input:focus {
   outline: none;
   box-shadow: none;
-}
-
-/* Badge "Novo" */
-.bg-neutral-200 {
-  background: #e5e5e5 !important;
-  color: #22223B !important;
-}
-
-/* Botões de detalhes nos carrosséis */
-.bg-neutral-100 {
-  background: #fafafa !important;
-  color: #264653 !important;
-}
-.group-hover\:bg-neutral-200:hover {
-  background: #e5e5e5 !important;
-  color: #22223B !important;
-}
-
-/* Botões principais */
-.main-btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: bold;
-  background: #264653;
-  color: #fff;
-  transition: background 0.2s, color 0.2s;
-}
-.main-btn:hover {
-  background: #2a9df4;
-  color: #fff;
 }

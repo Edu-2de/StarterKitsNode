@@ -21,7 +21,10 @@ export default function Home() {
         <PopularProductsCarousel />
         <Testimonials />
       </main>
+      <div className="bg-primary text-surface p-4">Teste cor primária</div>
+      <div className="bg-background text-text p-4">Teste cor background</div>
       <Footer />
+      
     </div>
   );
 }
