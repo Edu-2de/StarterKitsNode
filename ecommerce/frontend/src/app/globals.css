@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+.bg-primary, .bg-background, .text-surface, .text-text {}
 /* Paleta de cores customizada usando variáveis */
 :root {
   --color-petrol: #264653;
