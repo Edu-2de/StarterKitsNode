@@ -64,7 +64,7 @@ export default function LoginPage() {
         localStorage.setItem("token", data.token);
         setMsg("🎉 Login realizado com sucesso!");
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/");
         }, 1200);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {

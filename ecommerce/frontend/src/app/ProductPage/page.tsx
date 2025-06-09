@@ -247,21 +247,21 @@ export default function ProductPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-neutral-50 py-10 px-2">
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8 md:p-10 flex flex-col md:flex-row gap-10 border border-neutral-100">
+      <main className="min-h-screen bg-blue-50 py-10 px-2">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8 md:p-10 flex flex-col md:flex-row gap-10 border border-blue-100">
           {/* Galeria de imagens */}
           <div className="flex flex-col items-center w-full max-w-2xl mx-auto md:mx-0 gap-4">
-            <div className="rounded-2xl w-[600px] aspect-[4/3] bg-neutral-100 flex items-center justify-center text-neutral-400 text-4xl font-bold select-none border border-neutral-200 mb-2 transition-all shadow-sm">
+            <div className="rounded-2xl w-[600px] aspect-[4/3] bg-blue-100 flex items-center justify-center text-blue-300 text-4xl font-bold select-none border border-blue-200 mb-2 transition-all shadow-sm">
               IMG {selectedImage}
             </div>
             <div className="flex gap-3">
               {product.images.map((img) => (
                 <button
                   key={img}
-                  className={`w-16 h-16 rounded-lg border transition-all flex items-center justify-center text-neutral-400 font-bold text-base bg-neutral-100 ${
+                  className={`w-16 h-16 rounded-lg border transition-all flex items-center justify-center text-blue-300 font-bold text-base bg-blue-100 ${
                     selectedImage === img
-                      ? "border-neutral-700 ring-2 ring-neutral-300"
-                      : "border-neutral-200 hover:border-neutral-400"
+                      ? "border-blue-700 ring-2 ring-blue-300"
+                      : "border-blue-200 hover:border-blue-400"
                   }`}
                   onClick={() => setSelectedImage(img)}
                   aria-label={`Selecionar imagem ${img}`}
@@ -275,12 +275,12 @@ export default function ProductPage() {
           {/* Info */}
           <div className="flex-1 flex flex-col gap-7 justify-center">
             <div className="flex flex-col gap-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-neutral-800">{product.name}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-blue-900">{product.name}</h1>
               <div className="flex gap-2 flex-wrap">
                 {product.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="bg-neutral-200 text-neutral-600 text-xs font-semibold px-3 py-1 rounded-full"
+                    className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full"
                   >
                     {tag}
                   </span>
@@ -288,17 +288,17 @@ export default function ProductPage() {
               </div>
             </div>
             <div className="flex items-end gap-6 flex-wrap">
-              <span className="text-3xl font-extrabold text-neutral-700">{product.price}</span>
-              <span className="text-base text-neutral-500 font-medium">{product.installments}</span>
+              <span className="text-3xl font-extrabold text-blue-900">{product.price}</span>
+              <span className="text-base text-blue-700 font-medium">{product.installments}</span>
               <span className="text-xs text-green-700 font-semibold bg-green-50 px-2 py-1 rounded-full border border-green-100">
                 {product.stock > 0 ? "Disponível" : "Indisponível"}
               </span>
             </div>
-            <div className="text-neutral-500 text-base">{product.description}</div>
+            <div className="text-blue-800 text-base">{product.description}</div>
             {/* Aba de descrição */}
             <div className="mt-2">
               <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 font-semibold transition mb-2"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-100 hover:bg-blue-200 border border-blue-200 text-blue-900 font-semibold transition mb-2"
                 onClick={() => setShowDetails((v) => !v)}
                 type="button"
                 aria-expanded={showDetails}
@@ -307,39 +307,39 @@ export default function ProductPage() {
                 <span className={`transition-transform ${showDetails ? "rotate-90" : ""}`}>{">"}</span>
               </button>
               {showDetails && (
-                <div className="bg-neutral-50 border border-neutral-100 rounded-lg p-4 text-sm text-neutral-700 animate-fade-in-down">
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 text-sm text-blue-900 animate-fade-in-down">
                   <div className="flex flex-wrap gap-x-10 gap-y-2">
                     <div className="min-w-[120px]">
-                      <span className="block text-neutral-500 text-xs mb-1">Marca</span>
-                      <span className="font-medium text-neutral-700">{product.brand}</span>
+                      <span className="block text-blue-700 text-xs mb-1">Marca</span>
+                      <span className="font-medium text-blue-900">{product.brand}</span>
                     </div>
                     <div className="min-w-[120px]">
-                      <span className="block text-neutral-500 text-xs mb-1">SKU</span>
-                      <span className="font-mono text-neutral-700">{product.sku}</span>
+                      <span className="block text-blue-700 text-xs mb-1">SKU</span>
+                      <span className="font-mono text-blue-900">{product.sku}</span>
                     </div>
                     <div className="min-w-[120px]">
-                      <span className="block text-neutral-500 text-xs mb-1">Garantia</span>
-                      <span className="text-neutral-700">{product.warranty}</span>
+                      <span className="block text-blue-700 text-xs mb-1">Garantia</span>
+                      <span className="text-blue-900">{product.warranty}</span>
                     </div>
                     <div className="min-w-[120px]">
-                      <span className="block text-neutral-500 text-xs mb-1">Frete</span>
-                      <span className="text-neutral-700">{product.shipping}</span>
+                      <span className="block text-blue-700 text-xs mb-1">Frete</span>
+                      <span className="text-blue-900">{product.shipping}</span>
                     </div>
                     <div className="min-w-[120px]">
-                      <span className="block text-neutral-500 text-xs mb-1">Prazo</span>
-                      <span className="text-neutral-700">{product.deliveryTime}</span>
+                      <span className="block text-blue-700 text-xs mb-1">Prazo</span>
+                      <span className="text-blue-900">{product.deliveryTime}</span>
                     </div>
                   </div>
                 </div>
               )}
             </div>
             <div>
-              <span className="block text-neutral-700 font-semibold mb-1">Métodos de pagamento:</span>
+              <span className="block text-blue-900 font-semibold mb-1">Métodos de pagamento:</span>
               <ul className="flex flex-wrap gap-2">
                 {product.paymentMethods.map((method) => (
                   <li
                     key={method}
-                    className="px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 text-xs font-medium"
+                    className="px-3 py-1 rounded-full bg-blue-100 border border-blue-200 text-blue-900 text-xs font-medium"
                   >
                     {method}
                   </li>
@@ -347,7 +347,7 @@ export default function ProductPage() {
               </ul>
             </div>
             <button
-              className="mt-2 px-8 py-3 rounded-full bg-neutral-800 text-white font-bold hover:bg-neutral-700 transition active:scale-95 text-lg shadow"
+              className="mt-2 px-8 py-3 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition active:scale-95 text-lg shadow"
               onClick={handleBuy}
               disabled={hasBought}
             >
@@ -362,16 +362,16 @@ export default function ProductPage() {
             {showReviewForm && (
               <form
                 onSubmit={handleReviewSubmit}
-                className="mt-6 bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex flex-col gap-3 animate-fade-in-down"
+                className="mt-6 bg-blue-50 border border-blue-100 rounded-xl p-4 flex flex-col gap-3 animate-fade-in-down"
               >
-                <div className="font-semibold text-neutral-700">Avalie este produto:</div>
+                <div className="font-semibold text-blue-900">Avalie este produto:</div>
                 <div className="flex gap-1 items-center">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       type="button"
                       key={star}
                       className={`text-2xl transition-colors ${
-                        reviewRating >= star ? "text-yellow-400" : "text-neutral-300"
+                        reviewRating >= star ? "text-yellow-400" : "text-blue-200"
                       }`}
                       onClick={() => setReviewRating(star)}
                       tabIndex={0}
@@ -382,7 +382,7 @@ export default function ProductPage() {
                   ))}
                 </div>
                 <textarea
-                  className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-neutral-700 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-200 transition resize-none"
+                  className="w-full rounded-lg border border-blue-100 bg-white px-3 py-2 text-blue-900 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 transition resize-none"
                   rows={3}
                   placeholder="Conte como foi sua experiência..."
                   value={reviewText}
@@ -391,7 +391,7 @@ export default function ProductPage() {
                 />
                 <button
                   type="submit"
-                  className="self-end px-6 py-2 rounded-full bg-neutral-800 text-white font-semibold hover:bg-neutral-700 transition active:scale-95"
+                  className="self-end px-6 py-2 rounded-full bg-yellow-400 text-blue-900 font-semibold hover:bg-yellow-300 transition active:scale-95"
                 >
                   Enviar avaliação
                 </button>
@@ -404,35 +404,35 @@ export default function ProductPage() {
         </div>
 
         {/* Produtos relacionados - carrossel */}
-        <section className="relative py-10 sm:py-14 md:py-16 bg-neutral-50 select-none">
+        <section className="relative py-10 sm:py-14 md:py-16 bg-blue-50 select-none">
           <div className="max-w-7xl mx-auto px-2 sm:px-4">
             <div className="flex items-center mb-6 md:mb-8">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-neutral-700 tracking-tight text-left">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-900 tracking-tight text-left">
                 Produtos relacionados
               </h2>
-              <div className="flex-1 border-b border-neutral-200 ml-4 sm:ml-6" />
+              <div className="flex-1 border-b border-blue-200 ml-4 sm:ml-6" />
             </div>
             <div className="relative">
               {/* Carousel Controls */}
               <button
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-neutral-100 border border-neutral-200 shadow px-2.5 py-2.5 rounded-full transition"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-blue-100 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
                 onClick={handleRelPrev}
                 aria-label="Anterior"
                 type="button"
                 disabled={relIsTransitioning}
               >
-                <svg width={24} height={24} fill="none" stroke="#888" strokeWidth={2} viewBox="0 0 24 24">
+                <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-neutral-100 border border-neutral-200 shadow px-2.5 py-2.5 rounded-full transition"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-blue-100 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
                 onClick={handleRelNext}
                 aria-label="Próximo"
                 type="button"
                 disabled={relIsTransitioning}
               >
-                <svg width={24} height={24} fill="none" stroke="#888" strokeWidth={2} viewBox="0 0 24 24">
+                <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -470,7 +470,7 @@ export default function ProductPage() {
                       key={prod.id + "-" + idx}
                       className={`
                         group relative flex flex-col items-center justify-between
-                        rounded-2xl border border-neutral-200 bg-white shadow-lg
+                        rounded-2xl border border-blue-200 bg-white shadow-lg
                         transition-all duration-300
                         cursor-pointer
                         ${windowWidth >= 1024
@@ -479,8 +479,8 @@ export default function ProductPage() {
                           ? "min-w-[320px] max-w-[320px]"
                           : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                         w-full
-                        ${relHovered === prod.id ? "scale-[1.045] shadow-xl border-neutral-300" : ""}
-                        ${relSelected === prod.id ? "ring-2 ring-neutral-400" : ""}
+                        ${relHovered === prod.id ? "scale-[1.045] shadow-xl border-blue-300 z-[60]" : ""}
+                        ${relSelected === prod.id ? "ring-2 ring-yellow-300" : ""}
                       `}
                       style={{
                         minHeight: windowWidth < 640 ? 220 : 340,
@@ -499,29 +499,29 @@ export default function ProductPage() {
                       <div
                         className={`
                           w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 bg-gradient-to-br
-                          from-neutral-100 to-neutral-200
+                          from-blue-100 to-blue-50
                           flex items-center justify-center
                           transition-all duration-300
                           ${relHovered === prod.id ? "shadow-md" : ""}
                         `}
                       >
-                        <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-neutral-200 rounded-lg`} />
+                        <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-blue-200 rounded-lg`} />
                       </div>
                       {/* Nome e preço */}
                       <div className="w-full text-center">
-                        <div className={`font-semibold text-neutral-700 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
+                        <div className={`font-semibold text-blue-900 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
                           {prod.name}
                         </div>
-                        <div className={`text-neutral-400 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
+                        <div className={`text-blue-700 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
                           {prod.price}
                         </div>
                         <button
                           className={`
                             mt-2 px-5 py-2 rounded-full font-semibold text-sm
-                            bg-neutral-100 text-neutral-600 border border-neutral-200
+                            bg-yellow-400 text-blue-900 border border-yellow-300
                             transition-all duration-200
-                            group-hover:bg-neutral-200 group-hover:text-neutral-800
-                            focus:outline-none focus:ring-2 focus:ring-neutral-300
+                            group-hover:bg-yellow-500 group-hover:text-blue-900
+                            focus:outline-none focus:ring-2 focus:ring-yellow-200
                           `}
                           tabIndex={-1}
                           onClick={() => alert(`Ver detalhes de ${prod.name}`)}
@@ -539,19 +539,19 @@ export default function ProductPage() {
 
         {/* Avaliações */}
         <section className="max-w-7xl mx-auto mt-14">
-          <h2 className="text-xl font-bold text-neutral-700 mb-4">Avaliações</h2>
+          <h2 className="text-xl font-bold text-blue-900 mb-4">Avaliações</h2>
           <div className="space-y-4">
             {reviews.map((review) => (
-              <div key={review.id} className="bg-white rounded-lg shadow p-4 flex flex-col gap-2 border border-neutral-100">
+              <div key={review.id} className="bg-white rounded-lg shadow p-4 flex flex-col gap-2 border border-blue-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-neutral-200" />
-                  <span className="font-semibold text-neutral-700">{review.user}</span>
+                  <div className="w-8 h-8 rounded-full bg-blue-100" />
+                  <span className="font-semibold text-blue-900">{review.user}</span>
                   <span className="ml-2 text-yellow-400 font-bold select-none">
                     {"★".repeat(review.rating)}
-                    <span className="text-neutral-300">{Array(5 - review.rating).fill("★").join("")}</span>
+                    <span className="text-blue-200">{Array(5 - review.rating).fill("★").join("")}</span>
                   </span>
                 </div>
-                <div className="text-neutral-600 text-sm">{review.text}</div>
+                <div className="text-blue-800 text-sm">{review.text}</div>
               </div>
             ))}
           </div>
@@ -559,7 +559,7 @@ export default function ProductPage() {
 
         {/* Comentários */}
         <section className="max-w-7xl mx-auto mt-14 mb-20">
-          <h2 className="text-xl font-bold text-neutral-700 mb-4">Comentários</h2>
+          <h2 className="text-xl font-bold text-blue-900 mb-4">Comentários</h2>
           <form
             onSubmit={handleCommentSubmit}
             className="flex flex-col sm:flex-row gap-3 mb-6"
@@ -569,12 +569,12 @@ export default function ProductPage() {
               value={commentInput}
               onChange={e => setCommentInput(e.target.value)}
               placeholder="Escreva um comentário..."
-              className="flex-1 px-4 py-2 rounded-full border border-neutral-200 bg-neutral-50 text-neutral-700 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-200 transition"
+              className="flex-1 px-4 py-2 rounded-full border border-blue-100 bg-blue-50 text-blue-900 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
               maxLength={180}
             />
             <button
               type="submit"
-              className="px-6 py-2 rounded-full bg-neutral-800 text-white font-semibold hover:bg-neutral-700 transition active:scale-95"
+              className="px-6 py-2 rounded-full bg-yellow-400 text-blue-900 font-semibold hover:bg-yellow-300 transition active:scale-95"
               disabled={commentInput.trim().length === 0}
             >
               Comentar
@@ -582,17 +582,17 @@ export default function ProductPage() {
           </form>
           <div className="space-y-3">
             {comments.length === 0 && (
-              <div className="text-neutral-400 text-center">Nenhum comentário ainda.</div>
+              <div className="text-blue-400 text-center">Nenhum comentário ainda.</div>
             )}
             {comments.map((c) => (
               <div
                 key={c.id}
-                className="bg-white border border-neutral-100 rounded-lg px-4 py-3 flex items-start gap-3"
+                className="bg-white border border-blue-100 rounded-lg px-4 py-3 flex items-start gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-neutral-200 flex-shrink-0" />
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex-shrink-0" />
                 <div>
-                  <span className="font-semibold text-neutral-700">{c.user}</span>
-                  <div className="text-neutral-600 text-sm">{c.text}</div>
+                  <span className="font-semibold text-blue-900">{c.user}</span>
+                  <div className="text-blue-800 text-sm">{c.text}</div>
                 </div>
               </div>
             ))}

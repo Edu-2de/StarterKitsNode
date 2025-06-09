@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export default function Header() {
@@ -11,8 +11,51 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [userDropdown, setUserDropdown] = useState(false);
   const lastScroll = useRef(0);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // --- Autenticação ---
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  useEffect(() => {
+    // Simples: pega do localStorage (ideal: usar Context/AuthProvider)
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const userName = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
+    if (token && userName) {
+      setUser({ name: userName });
+    } else {
+      setUser(null);
+    }
+  }, []);
+
+  // Fecha dropdown do usuário ao clicar fora
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      const userBtn = document.getElementById("user-btn");
+      const userPanel = document.getElementById("user-panel");
+      if (
+        userBtn &&
+        userPanel &&
+        !userBtn.contains(e.target as Node) &&
+        !userPanel.contains(e.target as Node)
+      ) {
+        setUserDropdown(false);
+      }
+    }
+    if (userDropdown) {
+      document.addEventListener("mousedown", handleClick);
+    }
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [userDropdown]);
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    setUser(null);
+    setUserDropdown(false);
+    window.location.href = "/login";
+  }
 
   // Simulação de busca (mock)
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -251,7 +294,7 @@ export default function Header() {
             </a>
           </nav>
 
-          {/* Barra de pesquisa e botão entrar */}
+          {/* Barra de pesquisa e botão entrar/user */}
           <div className="flex items-center gap-3 flex-1 justify-end">
             <form
               onSubmit={handleSearchSubmit}
@@ -308,24 +351,59 @@ export default function Header() {
                 </div>
               )}
             </form>
-            <Link
-              href="/login"
-              className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
-              style={{
-                border: "none",
-                fontWeight: 700,
-                letterSpacing: "-0.01em",
-                transition: "background 0.2s, color 0.2s",
-                minWidth: 0,
-                whiteSpace: "nowrap",
-              }}
-            >
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
-                <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
-              </svg>
-              Entrar
-            </Link>
+            {/* Botão Entrar ou User Dropdown */}
+            {!user ? (
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
+                style={{
+                  border: "none",
+                  fontWeight: 700,
+                  letterSpacing: "-0.01em",
+                  transition: "background 0.2s, color 0.2s",
+                  minWidth: 0,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
+                  <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                </svg>
+                Entrar
+              </Link>
+            ) : (
+              <div className="relative">
+                <button
+                  id="user-btn"
+                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-white text-blue-900 border border-blue-200 hover:bg-blue-50"
+                  onClick={() => setUserDropdown((v) => !v)}
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={userDropdown}
+                >
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
+                    <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                  </svg>
+                  <span>{user.name}</span>
+                  <ChevronDownIcon className={`h-5 w-5 ml-1 transition-transform duration-200 ${userDropdown ? "rotate-180" : ""}`} />
+                </button>
+                {userDropdown && (
+                  <div
+                    id="user-panel"
+                    className="absolute right-0 mt-2 w-44 bg-white border border-blue-200 rounded-xl shadow-lg z-40 overflow-hidden"
+                  >
+                    <button
+                      className="w-full flex items-center gap-2 px-4 py-3 text-blue-900 hover:bg-blue-50 transition text-left"
+                      onClick={handleLogout}
+                    >
+                      <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                      Sair
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -521,19 +599,31 @@ export default function Header() {
               >
                 Sobre
               </a>
-              {/* Login/Register CTA mobile */}
+              {/* Login/Register CTA mobile OU User Dropdown mobile */}
               <div className="w-full flex flex-col items-center mt-6">
-                <Link
-                  href="/login"
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
-                    <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
-                  </svg>
-                  Entrar
-                </Link>
+                {!user ? (
+                  <Link
+                    href="/login"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                      <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
+                      <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                    </svg>
+                    Entrar
+                  </Link>
+                ) : (
+                  <div className="w-full flex flex-col items-center">
+                    <button
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-white text-blue-900 border border-blue-200 hover:bg-blue-50"
+                      onClick={handleLogout}
+                    >
+                      <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                      Sair ({user.name})
+                    </button>
+                  </div>
+                )}
               </div>
             </nav>
           </div>

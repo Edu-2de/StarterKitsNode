@@ -29,14 +29,24 @@ export default function CategoriesShowcase() {
   return (
     <section className="w-full bg-white py-8 border-t border-blue-100">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
-        <div className="flex flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-stretch">
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            md:grid-cols-2
+            lg:grid-cols-4
+            gap-4 sm:gap-6 md:gap-8
+            justify-center items-stretch
+          "
+        >
           {highlights.map((item, idx) => (
             <div
               key={idx}
               className={`
                 flex flex-col items-center justify-center
                 bg-gray-50 border border-blue-100 rounded-xl
-                px-6 py-6 w-full max-w-xs
+                px-6 py-6 w-full max-w-xs mx-auto
                 shadow-sm transition
                 hover:shadow-lg hover:border-yellow-400 hover:bg-yellow-50
                 focus-within:ring-2 focus-within:ring-yellow-200

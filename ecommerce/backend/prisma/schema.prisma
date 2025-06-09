@@ -7,29 +7,122 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ...existing code...
+// Usuário
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  name     String
-  cart     Cart[]
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  role      String    @default("customer")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  addresses Address[]
+  orders    Order[]
+  reviews   Review[]
+  cartItems CartItem[]
 }
 
+// Produto
 model Product {
-  id          Int     @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String
   price       Float
-  imageUrl    String
-  cartItems   Cart[]
+  sku         String      @unique
+  stock       Int
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  images      ProductImage[]
+  reviews     Review[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
 }
 
-model Cart {
-  id        Int     @id @default(autoincrement())
-  user      User    @relation(fields: [userId], references: [id])
+// Categoria
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+// Imagens do produto
+model ProductImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+// Carrinho (item do carrinho)
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
   userId    Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   productId Int
   quantity  Int
+}
+
+// Pedido
+model Order {
+  id         Int         @id @default(autoincrement())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     Int
+  createdAt  DateTime    @default(now())
+  status     String      @default("pending")
+  total      Float
+  address    Address?    @relation(fields: [addressId], references: [id])
+  addressId  Int?
+  items      OrderItem[]
+  payment    Payment?
+}
+
+// Item do pedido
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  price     Float
+}
+
+// Endereço
+model Address {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  street    String
+  number    String
+  city      String
+  state     String
+  zip       String
+  country   String
+  orders    Order[]
+}
+
+// Avaliação de produto
+model Review {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+}
+
+// Pagamento
+model Payment {
+  id        Int      @id @default(autoincrement())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int      @unique
+  method    String
+  status    String
+  paidAt    DateTime?
 }
