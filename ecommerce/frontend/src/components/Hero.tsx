@@ -5,7 +5,7 @@ const banners = [
   {
     id: 1,
     bg: "bg-gradient-to-br from-blue-100 via-white to-blue-50",
-    border: " border-blue-100",
+    border: "border-transparent",
     title: "Ofertas imperdíveis",
     subtitle: "Os melhores produtos com descontos exclusivos para você!",
     cta: "Ver ofertas",
@@ -14,7 +14,7 @@ const banners = [
   {
     id: 2,
     bg: "bg-gradient-to-br from-blue-100 via-white to-blue-50",
-    border: "border-blue-100",
+    border: "border-transparent",
     title: "Novidades da semana",
     subtitle: "Confira os lançamentos e fique por dentro das tendências.",
     cta: "Ver novidades",
@@ -23,7 +23,7 @@ const banners = [
   {
     id: 3,
     bg: "bg-gradient-to-br from-white via-blue-50 to-blue-100",
-    border: "border-blue-100",
+    border: "border-transparent",
     title: "Frete grátis acima de R$199",
     subtitle: "Aproveite para economizar ainda mais nas suas compras.",
     cta: "Comprar agora",
@@ -63,9 +63,9 @@ export default function Hero() {
             key={banner.id}
             className={`
               absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center
-              border rounded-none shadow-none px-4 sm:px-8
+              border ${banner.border} rounded-none shadow-none px-4 sm:px-8
               transition-all duration-500
-              ${banner.bg} ${banner.border}
+              ${banner.bg}
               ${idx === current ? "opacity-100 scale-100 z-10" : "opacity-0 scale-95 z-0"}
             `}
           >
