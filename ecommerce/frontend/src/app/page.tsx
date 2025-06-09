@@ -8,6 +8,7 @@ import PopularProductsCarousel from "@/components/PopularProductsCarousel";
 import CategoriesShowcase from "@/components/CategoriesShowcase";
 import Testimonials from "@/components/Testimonials";
 import BenefitsSection from "@/components/BenefitsSection";
+import { WhatsappButton } from "@/components/WhatsappButton";
 export default function Home() {
 
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <BenefitsSection />
         <PopularProductsCarousel />
         <Testimonials />
+        <WhatsappButton />
       </main>
       <Footer />
       
