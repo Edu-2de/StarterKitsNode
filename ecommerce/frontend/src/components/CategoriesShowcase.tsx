@@ -6,22 +6,22 @@ const highlights = [
   {
     title: "Entrega para todo o Brasil",
     description: "Receba onde estiver, com rapidez e segurança.",
-    icon: <Truck className="w-7 h-7 text-blue-700" />,
+    icon: <Truck className="w-7 h-7 transition-colors text-blue-700 group-hover:text-gray-800" />,
   },
   {
     title: "Compra 100% Segura",
     description: "Seus dados protegidos com criptografia.",
-    icon: <ShieldCheck className="w-7 h-7 text-blue-700" />,
+    icon: <ShieldCheck className="w-7 h-7 transition-colors text-blue-700 group-hover:text-gray-800" />,
   },
   {
     title: "Atendimento ágil",
     description: "Suporte eficiente para você.",
-    icon: <Clock className="w-7 h-7 text-blue-700" />,
+    icon: <Clock className="w-7 h-7 transition-colors text-blue-700 group-hover:text-gray-800" />,
   },
   {
     title: "Confiança e tradição",
     description: "Milhares de clientes satisfeitos.",
-    icon: <Globe className="w-7 h-7 text-blue-700" />,
+    icon: <Globe className="w-7 h-7 transition-colors text-blue-700 group-hover:text-gray-800" />,
   },
 ];
 
@@ -53,8 +53,6 @@ export default function CategoriesShowcase() {
               </div>
               <div className="font-extrabold text-blue-900 text-lg mb-1 group-hover:text-yellow-600 transition">{item.title}</div>
               <div className="text-gray-700 text-sm text-center">{item.description}</div>
-              {/* Detalhe amarelo sutil no topo */}
-              <span className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-yellow-400 rounded-b-full opacity-80" />
             </div>
           ))}
         </div>

@@ -137,35 +137,35 @@ export default function NewProductsCarousel() {
   }
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 bg-white select-none  border-blue-100">
+    <section className="relative py-12 sm:py-16 md:py-20 bg-white select-none">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="flex items-center mb-8 md:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-900 tracking-tight text-left">
             Novidades
           </h2>
-          <div className="flex-1 border-b border-blue-100 ml-4 sm:ml-6" />
+          <div className="flex-1 border-b-2 border-blue-900 ml-4 sm:ml-6 rounded-full" />
         </div>
         <div className="relative">
           {/* Carousel Controls */}
           <button
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-100 shadow px-2.5 py-2.5 rounded-full transition"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
             onClick={handlePrev}
             aria-label="Anterior"
             type="button"
             disabled={isTransitioning}
           >
-            <svg width={24} height={24} fill="none" stroke="#2563eb" strokeWidth={2} viewBox="0 0 24 24">
+            <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-100 shadow px-2.5 py-2.5 rounded-full transition"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
             onClick={handleNext}
             aria-label="Próximo"
             type="button"
             disabled={isTransitioning}
           >
-            <svg width={24} height={24} fill="none" stroke="#2563eb" strokeWidth={2} viewBox="0 0 24 24">
+            <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -203,7 +203,7 @@ export default function NewProductsCarousel() {
                   key={product.id + "-" + idx}
                   className={`
                     group relative flex flex-col items-center justify-between
-                    rounded-2xl border border-blue-100 bg-white shadow-sm
+                    rounded-2xl border border-blue-100 bg-white shadow-[0_2px_12px_0_rgba(30,41,59,0.07)]
                     transition-all duration-300
                     cursor-pointer
                     ${windowWidth >= 1024
@@ -212,8 +212,8 @@ export default function NewProductsCarousel() {
                       ? "min-w-[320px] max-w-[320px]"
                       : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                     w-full
-                    ${hovered === product.id ? "scale-[1.035] shadow-md border-blue-200" : ""}
-                    ${selected === product.id ? "ring-2 ring-blue-300" : ""}
+                    ${hovered === product.id ? "scale-[1.035] shadow-md border-yellow-300 bg-gray-50" : ""}
+                    ${selected === product.id ? "ring-2 ring-yellow-300" : ""}
                   `}
                   style={{
                     minHeight: windowWidth < 640 ? 220 : 340,
@@ -231,29 +231,31 @@ export default function NewProductsCarousel() {
                   {/* Imagem mock */}
                   <div
                     className={`
-                      w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 bg-blue-100
+                      w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 
+                      bg-gray-50 border border-blue-100
                       flex items-center justify-center
                       transition-all duration-300
                       ${hovered === product.id ? "shadow" : ""}
                     `}
                   >
-                    <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-blue-200 rounded-lg`} />
+                    <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-gray-200 rounded-lg`} />
                   </div>
                   {/* Nome e preço mock */}
                   <div className="w-full text-center">
                     <div className={`font-semibold text-blue-900 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
                       Produto {product.id}
                     </div>
-                    <div className={`text-blue-700 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
+                    <div className={`text-gray-700 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
                       R$ --
                     </div>
                     <button
                       className={`
                         mt-2 px-5 py-2 rounded-full font-semibold text-sm
-                        bg-blue-50 text-blue-900 border border-blue-100
+                        bg-yellow-400 text-blue-900 border border-yellow-300
                         transition-all duration-200
-                        group-hover:bg-blue-100 group-hover:text-blue-900
-                        focus:outline-none focus:ring-2 focus:ring-blue-200
+                        group-hover:bg-yellow-500 group-hover:text-blue-900
+                        focus:outline-none focus:ring-2 focus:ring-yellow-200
+                        shadow-sm
                       `}
                       tabIndex={-1}
                     >
@@ -261,9 +263,11 @@ export default function NewProductsCarousel() {
                     </button>
                   </div>
                   {/* Badge de novo */}
-                  <span className="absolute top-4 left-4 bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full select-none border border-blue-100">
+                  <span className="absolute top-4 left-4 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full select-none border border-yellow-300 shadow-sm">
                     Novo
                   </span>
+                  {/* Detalhe azul decorativo */}
+                  <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-100 rounded-b-2xl" />
                 </div>
               ))}
             </div>
