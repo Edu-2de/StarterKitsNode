@@ -10,18 +10,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [notAllowed, setNotAllowed] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("userRole");
+    const timer = setTimeout(() => {
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("userRole");
 
-    if (!token || role !== "admin") {
-      setNotAllowed(true);
-      setChecking(false);
-      setTimeout(() => {
-        router.replace("/login");
-      }, 5000);
-    } else {
-      setChecking(false);
-    }
+      if (!token || role !== "admin") {
+        setNotAllowed(true);
+        setChecking(false);
+        setTimeout(() => {
+          router.replace("/login");
+        }, 5000);
+      } else {
+        setChecking(false);
+      }
+    }, 15000); // 15 segundos
+
+    return () => clearTimeout(timer);
   }, [router]);
 
   if (checking) return <LoadingScreen />;
