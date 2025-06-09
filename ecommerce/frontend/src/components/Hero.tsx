@@ -5,7 +5,7 @@ const banners = [
   {
     id: 1,
     bg: "bg-gradient-to-br from-blue-100 via-white to-blue-50",
-    border: "border-blue-100",
+    border: " border-blue-100",
     title: "Ofertas imperdíveis",
     subtitle: "Os melhores produtos com descontos exclusivos para você!",
     cta: "Ver ofertas",
