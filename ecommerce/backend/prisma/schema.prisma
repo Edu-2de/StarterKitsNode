@@ -9,10 +9,12 @@ datasource db {
 
 // Usuário
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   email     String    @unique
   password  String
   name      String
+  avatarUrl String?
+  isActive  Boolean   @default(true)
   role      String    @default("customer")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -24,7 +26,7 @@ model User {
 
 // Produto
 model Product {
-  id          Int         @id @default(autoincrement())
+  id          String      @id @default(uuid())
   name        String
   description String
   price       Float
@@ -34,7 +36,7 @@ model Product {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   category    Category?   @relation(fields: [categoryId], references: [id])
-  categoryId  Int?
+  categoryId  String?
   images      ProductImage[]
   reviews     Review[]
   cartItems   CartItem[]
@@ -43,59 +45,59 @@ model Product {
 
 // Categoria
 model Category {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String    @unique
   products Product[]
 }
 
 // Imagens do produto
 model ProductImage {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   url       String
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
 }
 
 // Carrinho (item do carrinho)
 model CartItem {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
   quantity  Int
 }
 
 // Pedido
 model Order {
-  id         Int         @id @default(autoincrement())
+  id         String      @id @default(uuid())
   user       User        @relation(fields: [userId], references: [id])
-  userId     Int
+  userId     String
   createdAt  DateTime    @default(now())
   status     String      @default("pending")
   total      Float
   address    Address?    @relation(fields: [addressId], references: [id])
-  addressId  Int?
+  addressId  String?
   items      OrderItem[]
   payment    Payment?
 }
 
 // Item do pedido
 model OrderItem {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int
+  orderId   String
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
   quantity  Int
   price     Float
 }
 
 // Endereço
 model Address {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
   street    String
   number    String
   city      String
@@ -107,11 +109,11 @@ model Address {
 
 // Avaliação de produto
 model Review {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
   rating    Int
   comment   String
   createdAt DateTime @default(now())
@@ -119,9 +121,9 @@ model Review {
 
 // Pagamento
 model Payment {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int      @unique
+  orderId   String   @unique
   method    String
   status    String
   paidAt    DateTime?

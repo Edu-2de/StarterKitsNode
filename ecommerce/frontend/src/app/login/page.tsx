@@ -62,9 +62,15 @@ export default function LoginPage() {
       try {
         const data = await login(email, senha);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userName", data.user?.name || "");
+        localStorage.setItem("userRole", data.user?.role || "customer"); // Salva o role
         setMsg("🎉 Login realizado com sucesso!");
         setTimeout(() => {
-          router.push("/");
+          if (data.user?.role === "admin") {
+            router.push("/admin");
+          } else {
+            router.push("/");
+          }
         }, 1200);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
@@ -87,6 +93,8 @@ export default function LoginPage() {
       try {
         const data = await register(nome, email, senha);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userName", data.user?.name || data.name || nome);
+        localStorage.setItem("userRole", data.user?.role || "customer"); // Salva o role
         setRegisterMsg("🎉 Cadastro realizado com sucesso!");
         setTimeout(() => {
           // Limpa campos de registro
