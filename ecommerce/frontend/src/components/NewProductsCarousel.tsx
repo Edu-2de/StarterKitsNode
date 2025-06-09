@@ -203,7 +203,7 @@ export default function NewProductsCarousel() {
                   key={product.id + "-" + idx}
                   className={`
                     group relative flex flex-col items-center justify-between
-                    rounded-2xl border border-blue-100 bg-white shadow-[0_2px_12px_0_rgba(30,41,59,0.07)]
+                    rounded-2xl border border-gray-200 bg-white shadow-[0_2px_12px_0_rgba(100,116,139,0.08)]
                     transition-all duration-300
                     cursor-pointer
                     ${windowWidth >= 1024
@@ -232,7 +232,7 @@ export default function NewProductsCarousel() {
                   <div
                     className={`
                       w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 
-                      bg-gray-50 border border-blue-100
+                      bg-gray-50 border border-gray-200
                       flex items-center justify-center
                       transition-all duration-300
                       ${hovered === product.id ? "shadow" : ""}
@@ -242,7 +242,7 @@ export default function NewProductsCarousel() {
                   </div>
                   {/* Nome e preço mock */}
                   <div className="w-full text-center">
-                    <div className={`font-semibold text-blue-900 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
+                    <div className={`font-semibold text-gray-900 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
                       Produto {product.id}
                     </div>
                     <div className={`text-gray-700 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
@@ -266,8 +266,7 @@ export default function NewProductsCarousel() {
                   <span className="absolute top-4 left-4 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full select-none border border-yellow-300 shadow-sm">
                     Novo
                   </span>
-                  {/* Detalhe azul decorativo */}
-                  <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-100 rounded-b-2xl" />
+                  {/* Detalhe azul decorativo removido */}
                 </div>
               ))}
             </div>

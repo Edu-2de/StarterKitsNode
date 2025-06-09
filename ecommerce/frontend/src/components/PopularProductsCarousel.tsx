@@ -36,7 +36,6 @@ export default function PopularProductsCarousel() {
       setVisibleCount(getVisibleCount(window.innerWidth));
     }
     window.addEventListener("resize", handleResize);
-    handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -62,7 +61,7 @@ export default function PopularProductsCarousel() {
   ];
   const realIndex = index + visibleCount;
 
-  // Card/gap config igual Features
+  // Card/gap config igual Novidades
   const cardWidth =
     windowWidth >= 1024
       ? 288
@@ -72,8 +71,6 @@ export default function PopularProductsCarousel() {
   const gap = windowWidth >= 1024 ? 32 : windowWidth >= 640 ? 32 : 16;
   const slideWidth = cardWidth + gap;
   const containerWidth = visibleCount * cardWidth + (visibleCount - 1) * gap;
-
-  // O translateX deve alinhar o primeiro card exatamente à esquerda do container
   const translate =
     -realIndex * slideWidth +
     (isDragging && dragStartX !== null ? dragDelta : 0);
@@ -126,35 +123,35 @@ export default function PopularProductsCarousel() {
   }
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 bg-neutral-50 select-none">
+    <section className="relative py-12 sm:py-16 md:py-20 bg-white select-none">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
         <div className="flex items-center mb-8 md:mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-neutral-700 tracking-tight text-left">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-900 tracking-tight text-left">
             Populares
           </h2>
-          <div className="flex-1 border-b border-neutral-200 ml-4 sm:ml-6" />
+          <div className="flex-1 border-b-2 border-blue-900 ml-4 sm:ml-6 rounded-full" />
         </div>
         <div className="relative">
           {/* Carousel Controls */}
           <button
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-neutral-100 border border-neutral-200 shadow px-2.5 py-2.5 rounded-full transition"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
             onClick={handlePrev}
             aria-label="Anterior"
             type="button"
             disabled={isTransitioning}
           >
-            <svg width={24} height={24} fill="none" stroke="#888" strokeWidth={2} viewBox="0 0 24 24">
+            <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-neutral-100 border border-neutral-200 shadow px-2.5 py-2.5 rounded-full transition"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-blue-50 border border-blue-200 shadow px-2.5 py-2.5 rounded-full transition"
             onClick={handleNext}
             aria-label="Próximo"
             type="button"
             disabled={isTransitioning}
           >
-            <svg width={24} height={24} fill="none" stroke="#888" strokeWidth={2} viewBox="0 0 24 24">
+            <svg width={24} height={24} fill="none" stroke="#1e3a8a" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -192,7 +189,7 @@ export default function PopularProductsCarousel() {
                   key={product.id + "-" + idx}
                   className={`
                     group relative flex flex-col items-center justify-between
-                    rounded-2xl border border-neutral-200 bg-white shadow-lg
+                    rounded-2xl border border-gray-200 bg-white shadow-[0_2px_12px_0_rgba(100,116,139,0.08)]
                     transition-all duration-300
                     cursor-pointer
                     ${windowWidth >= 1024
@@ -201,8 +198,8 @@ export default function PopularProductsCarousel() {
                       ? "min-w-[320px] max-w-[320px]"
                       : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                     w-full
-                    ${hovered === product.id ? "scale-[1.045] shadow-xl border-neutral-300" : ""}
-                    ${selected === product.id ? "ring-2 ring-neutral-400" : ""}
+                    ${hovered === product.id ? "scale-[1.035] shadow-md border-yellow-300 bg-gray-50" : ""}
+                    ${selected === product.id ? "ring-2 ring-yellow-300" : ""}
                   `}
                   style={{
                     minHeight: windowWidth < 640 ? 220 : 340,
@@ -220,43 +217,43 @@ export default function PopularProductsCarousel() {
                   {/* Imagem mock */}
                   <div
                     className={`
-                      w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 bg-gradient-to-br
-                      from-neutral-100 to-neutral-200
+                      w-full ${windowWidth < 640 ? "h-24" : "h-36"} rounded-xl mb-5 md:mb-7 
+                      bg-gray-50 border border-gray-200
                       flex items-center justify-center
                       transition-all duration-300
-                      ${hovered === product.id ? "shadow-md" : ""}
+                      ${hovered === product.id ? "shadow" : ""}
                     `}
                   >
-                    <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-neutral-200 rounded-lg`} />
+                    <div className={`${windowWidth < 640 ? "w-12 h-12" : "w-20 h-20"} bg-gray-200 rounded-lg`} />
                   </div>
                   {/* Nome e preço mock */}
                   <div className="w-full text-center">
-                    <div className={`font-semibold text-neutral-700 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
+                    <div className={`font-semibold text-gray-900 ${windowWidth < 640 ? "text-base" : "text-lg"} mb-1`}>
                       Produto Popular {product.id}
                     </div>
-                    <div className={`text-neutral-400 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
+                    <div className={`text-gray-700 font-medium ${windowWidth < 640 ? "text-sm" : "text-base"} mb-2`}>
                       R$ --
                     </div>
                     <button
                       className={`
                         mt-2 px-5 py-2 rounded-full font-semibold text-sm
-                        bg-neutral-100 text-neutral-600 border border-neutral-200
+                        bg-yellow-400 text-blue-900 border border-yellow-300
                         transition-all duration-200
-                        group-hover:bg-neutral-200 group-hover:text-neutral-800
-                        focus:outline-none focus:ring-2 focus:ring-neutral-300
+                        group-hover:bg-yellow-500 group-hover:text-blue-900
+                        focus:outline-none focus:ring-2 focus:ring-yellow-200
+                        shadow-sm
                       `}
                       tabIndex={-1}
                     >
                       Ver detalhes
                     </button>
                   </div>
-                  {/* Sem badge "Novo" */}
+                  {/* Nenhum detalhe azul nos cards */}
                 </div>
               ))}
             </div>
           </div>
         </div>
-        {/* Dots removidos */}
       </div>
     </section>
   );
