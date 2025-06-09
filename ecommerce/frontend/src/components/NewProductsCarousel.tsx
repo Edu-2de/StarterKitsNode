@@ -212,7 +212,7 @@ export default function NewProductsCarousel() {
                       ? "min-w-[320px] max-w-[320px]"
                       : "min-w-[calc(100vw-48px)] max-w-[calc(100vw-48px)]"}
                     w-full
-                    ${hovered === product.id ? "scale-[1.035] shadow-md border-yellow-300 bg-gray-50" : ""}
+                    ${hovered === product.id ? "scale-[1.035] shadow-md bg-gray-50 z-[60]" : ""}
                     ${selected === product.id ? "ring-2 ring-yellow-300" : ""}
                   `}
                   style={{
@@ -266,7 +266,6 @@ export default function NewProductsCarousel() {
                   <span className="absolute top-4 left-4 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full select-none border border-yellow-300 shadow-sm">
                     Novo
                   </span>
-                  {/* Detalhe azul decorativo removido */}
                 </div>
               ))}
             </div>
