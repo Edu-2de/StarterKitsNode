@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AdminDenied from "@/components/AdminDenied";
 import LoadingScreen from "@/components/LoadingScreen";
-
+import AdminSidebar from "@/components/AdminSidebar";
 export default function AdminPage() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
@@ -38,9 +38,12 @@ export default function AdminPage() {
   }
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      {/* Conteúdo restrito */}
-    </div>
+    <main className="flex">
+      <AdminSidebar onLogout={() => router.replace("/login")} />
+      <div className="flex-1 p-6">
+        <h1>Admin Dashboard</h1>
+        {/* Conteúdo restrito */}
+      </div>
+    </main>
   );
 }
