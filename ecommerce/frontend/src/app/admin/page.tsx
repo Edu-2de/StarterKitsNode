@@ -12,15 +12,21 @@ export default function AdminPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("userRole");
-    if (!token || role !== "admin") {
-      setNotAllowed(true);
-      setChecking(false);
-      setTimeout(() => {
-        router.replace("/login");
-      }, 5000);
-    } else {
-      setChecking(false);
-    }
+
+    // Simula loading de 30 segundos antes de checar permissão
+    const loadingTimeout = setTimeout(() => {
+      if (!token || role !== "admin") {
+        setNotAllowed(true);
+        setChecking(false);
+        setTimeout(() => {
+          router.replace("/login");
+        }, 5000);
+      } else {
+        setChecking(false);
+      }
+    }, 30000);
+
+    return () => clearTimeout(loadingTimeout);
   }, [router]);
 
   if (checking) {
