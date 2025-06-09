@@ -4,3 +4,4 @@ node_modules
 
 /generated/prisma
 /scripts/createAdmin.js
+/uploads

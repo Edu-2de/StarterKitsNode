@@ -13,11 +13,11 @@ import {
 // Você pode instalar HeroIcons com: npm install @heroicons/react
 
 const menuItems = [
-  { label: "Dashboard", icon: HomeIcon, href: "#" },
-  { label: "Usuários", icon: UsersIcon, href: "#" },
-  { label: "Pedidos", icon: ClipboardDocumentListIcon, href: "#" },
-  { label: "Produtos", icon: CubeIcon, href: "#" }, // Novo item Produtos
-  { label: "Configurações", icon: Cog6ToothIcon, href: "#" },
+  { label: "Dashboard", icon: HomeIcon, href: "/admin" },
+  { label: "Usuários", icon: UsersIcon, href: "/admin/users" },
+  { label: "Pedidos", icon: ClipboardDocumentListIcon, href: "/admin/orders" },
+  { label: "Produtos", icon: CubeIcon, href: "/admin/products" },
+  { label: "Configurações", icon: Cog6ToothIcon, href: "/admin/settings" },
 ];
 
 interface AdminSidebarProps {

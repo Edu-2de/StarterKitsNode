@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { login, register } from "@/api/auth"; // importa os fetchs
+import { login, register } from "@/app/api/auth"; // importa os fetchs
 
 type AnimState =
   | null
