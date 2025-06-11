@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import {
   FaCloud,
   FaUsers,
   FaHistory,
-  FaBullseye,
   FaEye,
-  FaTools,
   FaChalkboardTeacher,
   FaServer,
-  FaHeadset,
   FaChevronDown,
 } from "react-icons/fa";
 
@@ -20,13 +17,13 @@ const menu = [
       {
         title: "Consultoria",
         link: "#",
-        icon: <FaChalkboardTeacher className="text-emerald-500" />,
+        icon: <FaChalkboardTeacher className="text-emerald-400" />,
         description: "Especialistas para seu negócio",
       },
       {
         title: "Desenvolvimento",
         link: "#",
-        icon: <FaServer className="text-emerald-500" />,
+        icon: <FaServer className="text-emerald-400" />,
         description: "Soluções sob medida",
       },
       {
@@ -37,7 +34,7 @@ const menu = [
       {
         title: "Infraestrutura",
         link: "#",
-        icon: <FaCloud className="text-emerald-500" />,
+        icon: <FaCloud className="text-emerald-400" />,
         description: "Ambiente robusto e seguro",
       },
       {
@@ -48,7 +45,7 @@ const menu = [
       {
         title: "Treinamento",
         link: "#",
-        icon: <FaChalkboardTeacher className="text-emerald-500" />,
+        icon: <FaChalkboardTeacher className="text-emerald-400" />,
         description: "Capacitação para equipes",
       },
     ],
@@ -59,13 +56,13 @@ const menu = [
       {
         title: "Equipe",
         link: "#",
-        icon: <FaUsers className="text-emerald-500" />,
+        icon: <FaUsers className="text-emerald-400" />,
         description: "Conheça nosso time",
       },
       {
         title: "História",
         link: "#",
-        icon: <FaHistory className="text-emerald-500" />,
+        icon: <FaHistory className="text-emerald-400" />,
         description: "Nossa trajetória",
       },
       {
@@ -76,7 +73,7 @@ const menu = [
       {
         title: "Visão",
         link: "#",
-        icon: <FaEye className="text-emerald-500" />,
+        icon: <FaEye className="text-emerald-400" />,
         description: "Onde queremos chegar",
       },
     ],
@@ -85,34 +82,35 @@ const menu = [
 
 export default function Header1() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
-  // Calcula altura extra do submenu aberto (duas linhas se mais de 4 itens)
+  // Submenu height for smooth animation
   const getSubmenuRows = (idx: number) => {
     const count = menu[idx]?.submenu?.length || 0;
     return Math.ceil(count / 2);
   };
   const submenuHeight =
     openIndex !== null && menu[openIndex]?.submenu
-      ? 92 * getSubmenuRows(openIndex)
+      ? 90 * getSubmenuRows(openIndex)
       : 0;
 
   return (
     <header
-      className="fixed left-1/2 -translate-x-1/2 top-8 w-[98vw] max-w-6xl rounded-2xl bg-white/95 backdrop-blur-lg transition-all duration-300 border border-emerald-100"
+      ref={headerRef}
+      className="fixed left-1/2 -translate-x-1/2 top-8 w-[96vw] max-w-5xl rounded-xl bg-white/80 backdrop-blur transition-all duration-300"
       style={{
-        boxShadow: "0 4px 24px 0 rgba(16, 185, 129, 0.06)",
-        minHeight: 72,
+        minHeight: 64,
         height:
           openIndex !== null && menu[openIndex]?.submenu
-            ? 72 + submenuHeight
-            : 72,
+            ? 64 + submenuHeight
+            : 64,
       }}
     >
-      <nav className="flex items-center justify-between px-12 py-4">
-        <span className="text-2xl font-extrabold text-emerald-600 tracking-tight select-none">
+      <nav className="flex items-center justify-between px-10 py-3">
+        <span className="text-xl text-emerald-500 tracking-tight select-none font-medium">
           LOGO
         </span>
-        <ul className="flex gap-8 items-center">
+        <ul className="flex gap-7 items-center w-full justify-center">
           {menu.map((item, idx) => (
             <li
               key={item.title}
@@ -122,10 +120,10 @@ export default function Header1() {
             >
               <a
                 href={item.link || "#"}
-                className={`flex items-center gap-2 text-base font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${
+                className={`flex items-center gap-2 text-base px-3 py-1 rounded transition-colors duration-200 ${
                   openIndex === idx
-                    ? "text-emerald-600"
-                    : "text-gray-800 hover:text-emerald-600"
+                    ? "text-emerald-500"
+                    : "text-gray-700 hover:text-emerald-500"
                 }`}
               >
                 {item.title}
@@ -147,30 +145,34 @@ export default function Header1() {
               </a>
               {item.submenu && (
                 <div
-                  className={`absolute left-0 top-full w-[32rem] bg-white/95 border border-emerald-100 transition-all duration-300 overflow-hidden rounded-b-2xl shadow-lg ${
+                  className={`fixed left-1/2 top-[calc(2rem+2rem+0.75rem)] z-30 bg-white/95 transition-all duration-300 overflow-hidden rounded-b-xl shadow ${
                     openIndex === idx
                       ? "opacity-100 pointer-events-auto"
                       : "opacity-0 pointer-events-none"
                   }`}
                   style={{
+                    transform: "translateX(-50%)",
+                    width: headerRef.current
+                      ? `${headerRef.current.offsetWidth}px`
+                      : "100vw",
+                    maxWidth: "96vw",
+                    minWidth: "240px",
                     maxHeight: openIndex === idx ? submenuHeight : 0,
                   }}
                 >
-                  <div className="w-full grid grid-cols-2 gap-x-6 gap-y-2 px-6 py-6">
+                  <div className="w-full grid grid-cols-2 gap-x-10 gap-y-2 px-12 py-6">
                     {item.submenu.map((sub) => (
                       <a
                         key={sub.title}
                         href={sub.link}
-                        className="flex items-start gap-3 py-3 px-2 rounded-lg transition-colors duration-200 text-emerald-700 hover:text-emerald-600"
+                        className="flex items-start gap-3 py-2 px-2 rounded transition-colors duration-200 text-emerald-600 hover:text-emerald-400"
                       >
                         {sub.icon && (
-                          <span className="text-xl mt-1">{sub.icon}</span>
+                          <span className="text-lg mt-1">{sub.icon}</span>
                         )}
                         <span>
-                          <span className="block font-semibold text-base">
-                            {sub.title}
-                          </span>
-                          <span className="block text-sm text-gray-500">
+                          <span className="block text-base">{sub.title}</span>
+                          <span className="block text-xs text-gray-500">
                             {sub.description}
                           </span>
                         </span>
@@ -184,7 +186,7 @@ export default function Header1() {
         </ul>
         <a
           href="#"
-          className="ml-8 px-7 py-2 rounded-xl bg-emerald-500 text-white font-semibold text-base shadow hover:bg-emerald-600 transition-colors duration-200"
+          className="ml-8 px-6 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200"
         >
           Contato
         </a>
