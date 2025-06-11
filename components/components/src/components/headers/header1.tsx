@@ -7,6 +7,8 @@ import {
   FaChalkboardTeacher,
   FaServer,
   FaChevronDown,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 const menu = [
@@ -82,6 +84,8 @@ const menu = [
 
 export default function Header1() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState<number | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const submenuTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -93,7 +97,7 @@ export default function Header1() {
     y: number;
   }>({ visible: false, text: "", x: 0, y: 0 });
 
-  // Submenu height for smooth animation
+  // Submenu height for smooth animation (desktop)
   const getSubmenuRows = (idx: number) => {
     const count = menu[idx]?.submenu?.length || 0;
     return Math.ceil(count / 2);
@@ -103,7 +107,7 @@ export default function Header1() {
       ? 90 * getSubmenuRows(openIndex)
       : 0;
 
-  // Mouse handlers para garantir que o submenu só fecha quando mouse realmente sai
+  // Mouse handlers para garantir que o submenu só fecha quando mouse realmente sai (desktop)
   const handleMenuMouseEnter = (idx: number) => {
     if (submenuTimeout.current) clearTimeout(submenuTimeout.current);
     setOpenIndex(idx);
@@ -145,11 +149,15 @@ export default function Header1() {
     setTooltip((prev) => ({ ...prev, visible: false }));
   };
 
-  // O submenu deve ser sempre logo abaixo do header fixo, então use top fixo (top-[calc(2rem+top-8)])
-  // O header está em top-8 (2rem), height 64px (4rem), então submenu deve ser top: calc(2rem + 4rem)
-  // Para garantir, use top: 'calc(2rem + 4rem)' (ou seja, top-8 + 64px)
-  // Se mudar o top do header, ajuste aqui também!
+  // O submenu deve ser sempre logo abaixo do header fixo (desktop)
   const submenuTop = "calc(2rem + 4rem)";
+
+  // Fecha menu mobile ao navegar
+  const handleMobileNavigate = () => {
+    setMobileMenu(false);
+    setMobileSubmenu(null);
+    setOpenIndex(null);
+  };
 
   return (
     <>
@@ -182,7 +190,7 @@ export default function Header1() {
               : 64,
         }}
       >
-        <nav className="flex items-center justify-between px-10 py-3">
+        <nav className="flex items-center justify-between px-4 md:px-10 py-3">
           {/* LOGO with tooltip */}
           <span
             className="text-xl text-emerald-500 tracking-tight select-none font-medium cursor-pointer"
@@ -192,7 +200,9 @@ export default function Header1() {
           >
             LOGO
           </span>
-          <ul className="flex gap-7 items-center w-full justify-center">
+
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex gap-7 items-center w-full justify-center">
             {menu.map((item, idx) => (
               <li
                 key={item.title}
@@ -253,6 +263,7 @@ export default function Header1() {
                           onMouseEnter={handleTooltipShow(sub.description || sub.title)}
                           onMouseMove={handleTooltipMove}
                           onMouseLeave={handleTooltipHide}
+                          onClick={handleMobileNavigate}
                         >
                           {sub.icon && (
                             <span className="text-lg mt-1">{sub.icon}</span>
@@ -271,16 +282,110 @@ export default function Header1() {
               </li>
             ))}
           </ul>
+
+          {/* Desktop Contato */}
           <a
             href="#"
-            className="ml-8 px-6 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200"
+            className="hidden md:inline ml-8 px-6 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200"
             onMouseEnter={handleTooltipShow("Entre em contato conosco")}
             onMouseMove={handleTooltipMove}
             onMouseLeave={handleTooltipHide}
           >
             Contato
           </a>
+
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden flex items-center justify-center text-emerald-500 text-2xl"
+            aria-label="Abrir menu"
+            onClick={() => setMobileMenu(true)}
+          >
+            <FaBars />
+          </button>
         </nav>
+
+        {/* Mobile Menu Overlay */}
+        {mobileMenu && (
+          <div className="fixed inset-0 z-40 bg-black/40" onClick={handleMobileNavigate}></div>
+        )}
+
+        {/* Mobile Menu Drawer */}
+        <aside
+          className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-lg transition-transform duration-300 ${
+            mobileMenu ? "translate-x-0" : "-translate-x-full"
+          } md:hidden`}
+        >
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+            <span className="text-xl text-emerald-500 font-bold">LOGO</span>
+            <button
+              className="text-2xl text-gray-500"
+              aria-label="Fechar menu"
+              onClick={() => setMobileMenu(false)}
+            >
+              <FaTimes />
+            </button>
+          </div>
+          <nav className="flex flex-col gap-2 px-4 py-4">
+            {menu.map((item, idx) => (
+              <div key={item.title}>
+                <button
+                  className="w-full flex items-center justify-between text-base px-2 py-2 rounded hover:bg-emerald-50 text-gray-800 font-medium"
+                  onClick={() =>
+                    item.submenu
+                      ? setMobileSubmenu(mobileSubmenu === idx ? null : idx)
+                      : handleMobileNavigate()
+                  }
+                  onMouseEnter={handleTooltipShow(item.description || item.title)}
+                  onMouseMove={handleTooltipMove}
+                  onMouseLeave={handleTooltipHide}
+                >
+                  <span className="flex items-center gap-2">
+                    {item.title}
+                    {item.submenu && (
+                      <FaChevronDown
+                        className={`ml-2 transition-transform duration-200 ${
+                          mobileSubmenu === idx ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
+                  </span>
+                </button>
+                {/* Mobile Submenu */}
+                {item.submenu && mobileSubmenu === idx && (
+                  <div className="pl-4 py-1 flex flex-col gap-1">
+                    {item.submenu.map((sub) => (
+                      <a
+                        key={sub.title}
+                        href={sub.link}
+                        className="flex items-center gap-2 px-2 py-2 rounded text-emerald-600 hover:bg-emerald-50 text-base"
+                        onClick={handleMobileNavigate}
+                        onMouseEnter={handleTooltipShow(sub.description || sub.title)}
+                        onMouseMove={handleTooltipMove}
+                        onMouseLeave={handleTooltipHide}
+                      >
+                        {sub.icon && <span className="text-lg">{sub.icon}</span>}
+                        <span>
+                          <span className="block">{sub.title}</span>
+                          <span className="block text-xs text-gray-500">{sub.description}</span>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            <a
+              href="#"
+              className="mt-4 px-4 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200 text-center"
+              onClick={handleMobileNavigate}
+              onMouseEnter={handleTooltipShow("Entre em contato conosco")}
+              onMouseMove={handleTooltipMove}
+              onMouseLeave={handleTooltipHide}
+            >
+              Contato
+            </a>
+          </nav>
+        </aside>
       </header>
     </>
   );
