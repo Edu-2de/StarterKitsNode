@@ -5,7 +5,11 @@ import Header2 from "@/components/headers/header2";
 import Header3 from "@/components/headers/header3";
 
 import Hero1 from "@/components/heros/hero1";
+
 import Main1 from "@/components/maincontents/main1";
+
+import Footer1 from "@/components/footers/footer1";
+
 import { useState } from "react";
 import React from "react";
 
@@ -13,6 +17,7 @@ export default function Home() {
   const [header, setHeader] = useState("Header 1");
   const [hero, setHero] = useState("Hero 1");
   const [main, setMain] = useState("Main 1");
+  const [footer, setFooter] = useState("Footer 1");
   const [panelOpen, setPanelOpen] = useState(true);
 
   const chooseHeader = (header: "Header 1" | "Header 2" | "Header 3") => {
@@ -24,6 +29,9 @@ export default function Home() {
   const chooseMain = (main: "Main 1") => {
     setMain(main);
   };
+  const chooseFooter = (footer: "Footer 1") => {
+    setFooter(footer);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 main-bg">
@@ -33,7 +41,9 @@ export default function Home() {
         {hero === "Hero 1" && <Hero1 />}
         {main === "Main 1" && <Main1 />}
       </main>
-      {/* Controle fixo de troca de header, hero e main */}
+      {/* Renderiza o footer selecionado */}
+      {footer === "Footer 1" && <Footer1 />}
+      {/* Controle fixo de troca de header, hero, main e footer */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         {/* Botão para expandir/recolher */}
         {!panelOpen && (
@@ -127,15 +137,20 @@ export default function Home() {
                 Main 1
               </button>
             </div>
-            {/* Footer (em breve) */}
+            {/* Footer */}
             <div className="mt-4 flex flex-col gap-2">
-              <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Footer (em breve)</span>
+              <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Footer</span>
               <button
-                className="px-4 py-2 rounded-lg font-semibold border border-neutral-200 bg-neutral-100 text-neutral-400 text-sm text-left cursor-not-allowed"
-                disabled
+                className={`px-4 py-2 rounded-lg font-semibold border transition text-sm text-left ${
+                  footer === "Footer 1"
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200"
+                }`}
+                onClick={() => chooseFooter("Footer 1")}
               >
                 Footer 1
               </button>
+              {/* Para futuros footers, adicione mais botões aqui */}
             </div>
           </div>
         )}

@@ -173,7 +173,7 @@ export default function Header1() {
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="fixed z-50 px-2 py-1 rounded bg-neutral-900 text-white text-xs font-medium pointer-events-none shadow"
+          className="fixed z-[20000] px-2 py-1 rounded bg-neutral-900 text-white text-xs font-medium pointer-events-none shadow"
           style={{
             left: tooltip.x,
             top: tooltip.y,
