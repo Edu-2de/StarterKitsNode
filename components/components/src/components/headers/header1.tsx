@@ -19,13 +19,13 @@ const menu = [
       {
         title: "Consultoria",
         link: "#",
-        icon: <FaChalkboardTeacher className="text-emerald-400" />,
+        icon: <FaChalkboardTeacher className="text-neutral-400" />,
         description: "Especialistas para seu negócio",
       },
       {
         title: "Desenvolvimento",
         link: "#",
-        icon: <FaServer className="text-emerald-400" />,
+        icon: <FaServer className="text-neutral-400" />,
         description: "Soluções sob medida",
       },
       {
@@ -36,7 +36,7 @@ const menu = [
       {
         title: "Infraestrutura",
         link: "#",
-        icon: <FaCloud className="text-emerald-400" />,
+        icon: <FaCloud className="text-neutral-400" />,
         description: "Ambiente robusto e seguro",
       },
       {
@@ -47,7 +47,7 @@ const menu = [
       {
         title: "Treinamento",
         link: "#",
-        icon: <FaChalkboardTeacher className="text-emerald-400" />,
+        icon: <FaChalkboardTeacher className="text-neutral-400" />,
         description: "Capacitação para equipes",
       },
     ],
@@ -58,13 +58,13 @@ const menu = [
       {
         title: "Equipe",
         link: "#",
-        icon: <FaUsers className="text-emerald-400" />,
+        icon: <FaUsers className="text-neutral-400" />,
         description: "Conheça nosso time",
       },
       {
         title: "História",
         link: "#",
-        icon: <FaHistory className="text-emerald-400" />,
+        icon: <FaHistory className="text-neutral-400" />,
         description: "Nossa trajetória",
       },
       {
@@ -75,7 +75,7 @@ const menu = [
       {
         title: "Visão",
         link: "#",
-        icon: <FaEye className="text-emerald-400" />,
+        icon: <FaEye className="text-neutral-400" />,
         description: "Onde queremos chegar",
       },
     ],
@@ -159,12 +159,21 @@ export default function Header1() {
     setOpenIndex(null);
   };
 
+  // Impede o scroll do body quando o menu mobile está aberto
+  React.useEffect(() => {
+    if (mobileMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [mobileMenu]);
+
   return (
     <>
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="fixed z-50 px-2 py-1 rounded bg-emerald-500 text-white text-xs font-medium pointer-events-none shadow"
+          className="fixed z-50 px-2 py-1 rounded bg-neutral-900 text-white text-xs font-medium pointer-events-none shadow"
           style={{
             left: tooltip.x,
             top: tooltip.y,
@@ -172,16 +181,17 @@ export default function Header1() {
             transition:
               "left 0.10s cubic-bezier(.4,0,.2,1), top 0.10s cubic-bezier(.4,0,.2,1), opacity 0.18s",
             opacity: tooltip.visible ? 1 : 0,
-            boxShadow: "0 2px 8px 0 rgba(16, 185, 129, 0.18)",
+            boxShadow: "0 2px 8px 0 rgba(30, 41, 59, 0.13)",
           }}
         >
           {tooltip.text}
         </div>
       )}
 
+      {/* HEADER */}
       <header
         ref={headerRef}
-        className="fixed left-1/2 -translate-x-1/2 top-8 w-[96vw] max-w-5xl rounded-xl bg-white/80 backdrop-blur transition-all duration-300"
+        className="fixed left-1/2 -translate-x-1/2 top-8 w-[96vw] max-w-5xl rounded-xl bg-white/80 backdrop-blur transition-all duration-300 shadow border border-neutral-200"
         style={{
           minHeight: 64,
           height:
@@ -193,7 +203,7 @@ export default function Header1() {
         <nav className="flex items-center justify-between px-4 md:px-10 py-3">
           {/* LOGO with tooltip */}
           <span
-            className="text-xl text-emerald-500 tracking-tight select-none font-medium cursor-pointer"
+            className="text-xl text-neutral-800 tracking-tight select-none font-semibold cursor-pointer"
             onMouseEnter={handleTooltipShow("Este é o logo da empresa")}
             onMouseMove={handleTooltipMove}
             onMouseLeave={handleTooltipHide}
@@ -214,8 +224,8 @@ export default function Header1() {
                   href={item.link || "#"}
                   className={`flex items-center gap-2 text-base px-3 py-1 rounded transition-colors duration-200 ${
                     openIndex === idx
-                      ? "text-emerald-500"
-                      : "text-gray-700 hover:text-emerald-500"
+                      ? "text-neutral-900 font-semibold bg-neutral-100"
+                      : "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50"
                   }`}
                   onMouseEnter={handleTooltipShow(item.description || item.title)}
                   onMouseMove={handleTooltipMove}
@@ -240,7 +250,7 @@ export default function Header1() {
                 </a>
                 {item.submenu && openIndex === idx && (
                   <div
-                    className={`fixed left-1/2 z-30 bg-white/95 transition-all duration-300 overflow-hidden rounded-b-xl shadow opacity-100 pointer-events-auto`}
+                    className={`fixed left-1/2 z-30 bg-white/95 transition-all duration-300 overflow-hidden rounded-b-xl border border-t-0 border-neutral-200 shadow opacity-100 pointer-events-auto`}
                     style={{
                       top: submenuTop,
                       transform: "translateX(-50%)",
@@ -259,7 +269,7 @@ export default function Header1() {
                         <a
                           key={sub.title}
                           href={sub.link}
-                          className="flex items-start gap-3 py-2 px-2 rounded transition-colors duration-200 text-emerald-600 hover:text-emerald-400"
+                          className="flex items-start gap-3 py-2 px-2 rounded transition-colors duration-200 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100"
                           onMouseEnter={handleTooltipShow(sub.description || sub.title)}
                           onMouseMove={handleTooltipMove}
                           onMouseLeave={handleTooltipHide}
@@ -270,7 +280,7 @@ export default function Header1() {
                           )}
                           <span>
                             <span className="block text-base">{sub.title}</span>
-                            <span className="block text-xs text-gray-500">
+                            <span className="block text-xs text-neutral-400">
                               {sub.description}
                             </span>
                           </span>
@@ -286,7 +296,7 @@ export default function Header1() {
           {/* Desktop Contato */}
           <a
             href="#"
-            className="hidden md:inline ml-8 px-6 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200"
+            className="hidden md:inline ml-8 px-6 py-2 rounded-lg bg-neutral-900 text-white text-base hover:bg-neutral-800 transition-colors duration-200"
             onMouseEnter={handleTooltipShow("Entre em contato conosco")}
             onMouseMove={handleTooltipMove}
             onMouseLeave={handleTooltipHide}
@@ -296,7 +306,7 @@ export default function Header1() {
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden flex items-center justify-center text-emerald-500 text-2xl"
+            className="md:hidden flex items-center justify-center text-neutral-900 text-2xl"
             aria-label="Abrir menu"
             onClick={() => setMobileMenu(true)}
           >
@@ -304,86 +314,92 @@ export default function Header1() {
           </button>
         </nav>
 
-        {/* Mobile Menu Overlay */}
-        {mobileMenu && (
-          <div className="fixed inset-0 z-40 bg-black/40" onClick={handleMobileNavigate}></div>
-        )}
-
-        {/* Mobile Menu Drawer */}
+        {/* Mobile Fullscreen Menu */}
         <aside
-          className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-lg transition-transform duration-300 ${
+          className={`fixed inset-0 z-[99] bg-white transition-transform duration-300 flex flex-col ${
             mobileMenu ? "translate-x-0" : "-translate-x-full"
           } md:hidden`}
+          style={{ minHeight: "100dvh", height: "100dvh", touchAction: "manipulation" }}
+          role="navigation"
+          aria-label="Menu principal mobile"
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-            <span className="text-xl text-emerald-500 font-bold">LOGO</span>
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
+            <span className="text-xl text-neutral-900 font-bold">LOGO</span>
             <button
-              className="text-2xl text-gray-500"
+              className="text-2xl text-neutral-500"
               aria-label="Fechar menu"
               onClick={() => setMobileMenu(false)}
             >
               <FaTimes />
             </button>
           </div>
-          <nav className="flex flex-col gap-2 px-4 py-4">
-            {menu.map((item, idx) => (
-              <div key={item.title}>
-                <button
-                  className="w-full flex items-center justify-between text-base px-2 py-2 rounded hover:bg-emerald-50 text-gray-800 font-medium"
-                  onClick={() =>
-                    item.submenu
-                      ? setMobileSubmenu(mobileSubmenu === idx ? null : idx)
-                      : handleMobileNavigate()
-                  }
-                  onMouseEnter={handleTooltipShow(item.description || item.title)}
-                  onMouseMove={handleTooltipMove}
-                  onMouseLeave={handleTooltipHide}
-                >
-                  <span className="flex items-center gap-2">
-                    {item.title}
-                    {item.submenu && (
-                      <FaChevronDown
-                        className={`ml-2 transition-transform duration-200 ${
-                          mobileSubmenu === idx ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </span>
-                </button>
-                {/* Mobile Submenu */}
-                {item.submenu && mobileSubmenu === idx && (
-                  <div className="pl-4 py-1 flex flex-col gap-1">
-                    {item.submenu.map((sub) => (
-                      <a
-                        key={sub.title}
-                        href={sub.link}
-                        className="flex items-center gap-2 px-2 py-2 rounded text-emerald-600 hover:bg-emerald-50 text-base"
-                        onClick={handleMobileNavigate}
-                        onMouseEnter={handleTooltipShow(sub.description || sub.title)}
-                        onMouseMove={handleTooltipMove}
-                        onMouseLeave={handleTooltipHide}
-                      >
-                        {sub.icon && <span className="text-lg">{sub.icon}</span>}
-                        <span>
-                          <span className="block">{sub.title}</span>
-                          <span className="block text-xs text-gray-500">{sub.description}</span>
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            <a
-              href="#"
-              className="mt-4 px-4 py-2 rounded-lg bg-emerald-400 text-white text-base hover:bg-emerald-500 transition-colors duration-200 text-center"
-              onClick={handleMobileNavigate}
-              onMouseEnter={handleTooltipShow("Entre em contato conosco")}
-              onMouseMove={handleTooltipMove}
-              onMouseLeave={handleTooltipHide}
-            >
-              Contato
-            </a>
+          {/* Scrollable area */}
+          <nav className="flex-1 overflow-y-auto flex flex-col justify-between">
+            <div className="flex flex-col gap-1 px-3 py-4">
+              {menu.map((item, idx) => (
+                <div key={item.title}>
+                  <button
+                    className="w-full flex items-center justify-between text-base px-3 py-3 rounded hover:bg-neutral-100 text-neutral-800 font-medium focus:outline-none"
+                    onClick={() =>
+                      item.submenu
+                        ? setMobileSubmenu(mobileSubmenu === idx ? null : idx)
+                        : handleMobileNavigate()
+                    }
+                    onMouseEnter={handleTooltipShow(item.description || item.title)}
+                    onMouseMove={handleTooltipMove}
+                    onMouseLeave={handleTooltipHide}
+                    tabIndex={0}
+                  >
+                    <span className="flex items-center gap-2">
+                      {item.title}
+                      {item.submenu && (
+                        <FaChevronDown
+                          className={`ml-2 transition-transform duration-200 ${
+                            mobileSubmenu === idx ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
+                    </span>
+                  </button>
+                  {/* Mobile Submenu */}
+                  {item.submenu && mobileSubmenu === idx && (
+                    <div className="pl-4 py-1 flex flex-col gap-1">
+                      {item.submenu.map((sub) => (
+                        <a
+                          key={sub.title}
+                          href={sub.link}
+                          className="flex items-center gap-2 px-2 py-2 rounded text-neutral-700 hover:bg-neutral-100 text-base"
+                          onClick={handleMobileNavigate}
+                          onMouseEnter={handleTooltipShow(sub.description || sub.title)}
+                          onMouseMove={handleTooltipMove}
+                          onMouseLeave={handleTooltipHide}
+                        >
+                          {sub.icon && <span className="text-lg">{sub.icon}</span>}
+                          <span>
+                            <span className="block">{sub.title}</span>
+                            <span className="block text-xs text-neutral-400">{sub.description}</span>
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            {/* Contato fixo no rodapé do menu mobile */}
+            <div className="px-4 pb-6 pt-0">
+              <a
+                href="#"
+                className="w-full block px-4 py-3 rounded-lg bg-neutral-900 text-white text-base hover:bg-neutral-800 transition-colors duration-200 text-center"
+                onClick={handleMobileNavigate}
+                onMouseEnter={handleTooltipShow("Entre em contato conosco")}
+                onMouseMove={handleTooltipMove}
+                onMouseLeave={handleTooltipHide}
+              >
+                Contato
+              </a>
+            </div>
           </nav>
         </aside>
       </header>
