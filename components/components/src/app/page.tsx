@@ -3,21 +3,21 @@
 import Content from "@/components/content";
 import Header1 from "@/components/headers/header1";
 import Header2 from "@/components/headers/header2";
+import Header3 from "@/components/headers/header3";
 import { useState } from "react";
 import React from "react";
 
 export default function Home() {
   const [header, setHeader] = useState("Header 1");
 
-  const chooseHeader = (header: "Header 1" | "Header 2") => {
+  const chooseHeader = (header: "Header 1" | "Header 2" | "Header 3") => {
     setHeader(header);
-  
   };
 
-   return (
+  return (
     <div className="flex flex-col min-h-screen bg-gray-50 main-bg">
       {/* Renderiza o header selecionado */}
-      {header === "Header 1" ? <Header1 /> : <Header2 />}
+      {header === "Header 1" ? <Header1 /> : header === "Header 2" ? <Header2 /> : <Header3 />}
       <main>
         <Content />
         {/* Botão de troca de header mais embaixo */}
@@ -33,6 +33,13 @@ export default function Home() {
             onClick={() => chooseHeader("Header 2")}
           >
             Header 2
+          </button>
+       
+          <button
+            className={`px-4 py-2 rounded-lg font-semibold border transition ${header === "Header 3" ? "bg-blue-900 text-white border-blue-900" : "bg-white text-blue-900 border-blue-300 hover:bg-blue-50"}`}
+            onClick={() => chooseHeader("Header 3")}
+          >
+            Header 3
           </button>
         </div>
       </main>
