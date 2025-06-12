@@ -1,9 +1,16 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, ChevronDownIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  ArrowRightOnRectangleIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-export default function Header2() {
+export default function HeaderEcommerce() {
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -193,17 +200,26 @@ export default function Header2() {
     "Automotivo",
   ];
 
-  const moreOptions = [
-    "Opção A",
-    "Opção B",
-    "Opção C",
-    "Opção D",
-  ];
+  const moreOptions = ["Opção A", "Opção B", "Opção C", "Opção D"];
+
+  // Badge de carrinho fictício
+  const cartCount = 2;
+
+  // Cores principais do e-commerce (exemplo: azul)
+  const primary = "bg-blue-600";
+  const primaryHover = "hover:bg-blue-700";
+  const primaryText = "text-white";
+  const neutralBg = "bg-white";
+  const neutralBorder = "border-gray-200";
 
   return (
     <>
+      {/* Barra superior (info extra) */}
+      <div className="w-full py-1 px-4 bg-blue-50 text-blue-800 text-sm text-center font-medium select-none">
+        Frete grátis para pedidos acima de R$ 199
+      </div>
       <header
-        className={`bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-all border-b border-gray-200 shadow`}
+        className={`sticky top-0 z-50 shadow-lg border-b ${neutralBorder} ${neutralBg} transition-all`}
         style={{
           transform: visible || menuOpen ? "translateY(0)" : "translateY(-110%)",
           opacity: visible || menuOpen ? 1 : 0,
@@ -211,36 +227,36 @@ export default function Header2() {
           transition: "transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s",
         }}
       >
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
           {/* Logo */}
-          <span className="text-2xl font-extrabold tracking-tight select-none text-gray-900 drop-shadow-sm">
-            LOGO
+          <span className="text-2xl font-extrabold tracking-tight select-none text-blue-700 drop-shadow-sm">
+            E-Shop
           </span>
 
           {/* Navegação */}
           <nav className="hidden md:flex gap-6 items-center ml-8">
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100"
+              className="px-3 py-2 rounded font-semibold transition-colors duration-150 focus:outline-none text-blue-700 hover:bg-blue-50"
             >
               Início
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100 flex items-center gap-1 cursor-pointer"
               id="categories-btn"
-              onClick={e => {
+              className="px-3 py-2 rounded font-semibold flex items-center gap-1 text-blue-700 hover:bg-blue-50 cursor-pointer"
+              onClick={(e) => {
                 e.preventDefault();
-                setCategoriesOpen(v => {
+                setCategoriesOpen((v) => {
                   if (!v) setMoreOpen(false);
                   return !v;
                 });
               }}
               tabIndex={0}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  setCategoriesOpen(v => {
+                  setCategoriesOpen((v) => {
                     if (!v) setMoreOpen(false);
                     return !v;
                   });
@@ -249,55 +265,32 @@ export default function Header2() {
             >
               Categorias
               <ChevronDownIcon
-                className={`h-5 w-5 ml-1 transition-transform duration-200 ${categoriesOpen ? "rotate-180" : ""}`}
+                className={`h-5 w-5 ml-1 transition-transform duration-200 ${
+                  categoriesOpen ? "rotate-180" : ""
+                }`}
               />
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100 flex items-center gap-1 cursor-pointer"
-              id="more-btn"
-              onClick={e => {
-                e.preventDefault();
-                setMoreOpen(v => {
-                  if (!v) setCategoriesOpen(false);
-                  return !v;
-                });
-              }}
-              tabIndex={0}
-              onKeyDown={e => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setMoreOpen(v => {
-                    if (!v) setCategoriesOpen(false);
-                    return !v;
-                  });
-                }
-              }}
+              className="px-3 py-2 rounded font-semibold text-blue-700 hover:bg-blue-50"
             >
-              Mais opções
-              <ChevronDownIcon
-                className={`h-5 w-5 ml-1 transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`}
-              />
+              Ofertas
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100"
+              className="px-3 py-2 rounded font-semibold text-blue-700 hover:bg-blue-50"
             >
               Sobre
             </a>
           </nav>
 
-          {/* Barra de pesquisa e botão entrar/user */}
+          {/* Pesquisa, Carrinho e Login/User */}
           <div className="flex items-center gap-3 flex-1 justify-end">
             <form
               onSubmit={handleSearchSubmit}
               className="relative w-full max-w-xs hidden md:flex"
               autoComplete="off"
-              style={{
-                minWidth: 0,
-                flex: 1,
-                maxWidth: 320,
-              }}
+              style={{ minWidth: 0, flex: 1, maxWidth: 320 }}
             >
               <input
                 ref={searchInputRef}
@@ -305,37 +298,23 @@ export default function Header2() {
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Buscar produtos..."
-                className="w-full px-3 py-2 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition text-base shadow-sm"
-                style={{
-                  minWidth: 0,
-                  fontSize: "1rem",
-                  paddingLeft: 14,
-                  paddingRight: 38,
-                }}
+                className="w-full px-3 py-2 rounded border border-blue-200 bg-blue-50 text-blue-800 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-base shadow-sm"
                 onFocus={() => search.length > 1 && setSearchOpen(true)}
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-gray-500 hover:bg-gray-100 transition"
+                className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full ${primary} ${primaryText} ${primaryHover} transition`}
                 tabIndex={-1}
-                style={{
-                  background: "transparent",
-                  padding: 4,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
               >
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>
-              {/* Dropdown de resultados */}
               {searchOpen && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-30 overflow-hidden">
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-blue-200 rounded-xl shadow-lg z-30 overflow-hidden">
                   {searchResults.map((result, idx) => (
                     <button
                       key={result + idx}
                       type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-900 transition"
+                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-blue-800 transition"
                       onClick={() => handleResultClick(result)}
                     >
                       {result}
@@ -344,23 +323,35 @@ export default function Header2() {
                 </div>
               )}
             </form>
+            {/* Carrinho */}
+            <Link
+              href="/carrinho"
+              className="relative flex items-center justify-center rounded-full p-2 bg-white border border-blue-200 hover:bg-blue-50 transition"
+            >
+              <ShoppingCartIcon className="h-7 w-7 text-blue-700" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
             {/* Botão Entrar ou User Dropdown */}
             {!user ? (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-gray-900 text-white hover:bg-gray-700"
-                style={{
-                  border: "none",
-                  fontWeight: 700,
-                  letterSpacing: "-0.01em",
-                  transition: "background 0.2s, color 0.2s",
-                  minWidth: 0,
-                  whiteSpace: "nowrap",
-                }}
+                className={`${primary} ${primaryText} ${primaryHover} hidden md:flex items-center gap-2 px-5 py-2 rounded font-bold text-base shadow transition focus:outline-none`}
               >
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                  <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#fff" strokeWidth="1.5"/>
-                  <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#fff" strokeWidth="1.5"/>
+                  <path
+                    d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+                    stroke="#fff"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7"
+                    stroke="#fff"
+                    strokeWidth="1.5"
+                  />
                 </svg>
                 Entrar
               </Link>
@@ -368,26 +359,38 @@ export default function Header2() {
               <div className="relative">
                 <button
                   id="user-btn"
-                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
+                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded font-bold text-base bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 shadow transition"
                   onClick={() => setUserDropdown((v) => !v)}
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={userDropdown}
                 >
                   <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#111" strokeWidth="1.5"/>
-                    <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#111" strokeWidth="1.5"/>
+                    <path
+                      d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+                      stroke="#1976d2"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7"
+                      stroke="#1976d2"
+                      strokeWidth="1.5"
+                    />
                   </svg>
                   <span>{user.name}</span>
-                  <ChevronDownIcon className={`h-5 w-5 ml-1 transition-transform duration-200 ${userDropdown ? "rotate-180" : ""}`} />
+                  <ChevronDownIcon
+                    className={`h-5 w-5 ml-1 transition-transform duration-200 ${
+                      userDropdown ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
                 {userDropdown && (
                   <div
                     id="user-panel"
-                    className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-xl shadow-lg z-40 overflow-hidden"
+                    className="absolute right-0 mt-2 w-44 bg-white border border-blue-200 rounded-xl shadow-lg z-40 overflow-hidden"
                   >
                     <button
-                      className="w-full flex items-center gap-2 px-4 py-3 text-gray-900 hover:bg-gray-50 transition text-left"
+                      className="w-full flex items-center gap-2 px-4 py-3 text-blue-700 hover:bg-blue-50 transition text-left"
                       onClick={handleLogout}
                     >
                       <ArrowRightOnRectangleIcon className="h-5 w-5" />
@@ -398,25 +401,36 @@ export default function Header2() {
               </div>
             )}
           </div>
-
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-full border border-gray-200 bg-white shadow transition focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="md:hidden p-2 rounded-full border border-blue-200 bg-white shadow transition focus:outline-none focus:ring-2 focus:ring-blue-300"
             aria-label="Abrir menu"
             onClick={() => setMenuOpen(true)}
           >
-            <Bars3Icon className="h-7 w-7 text-gray-900" />
+            <Bars3Icon className="h-7 w-7 text-blue-700" />
           </button>
         </div>
-
+        {/* Barra de categorias horizontal para desktop */}
+        <div className="hidden md:flex bg-blue-50 border-t border-blue-100 py-2 justify-center">
+          <div className="max-w-7xl flex gap-4">
+            {categories.map((cat) => (
+              <a
+                key={cat}
+                href="#"
+                className="px-4 py-1 rounded text-blue-700 font-medium hover:bg-blue-100 transition"
+              >
+                {cat}
+              </a>
+            ))}
+          </div>
+        </div>
         {/* Linha abaixo do header */}
-        <div className="h-1 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-200 opacity-80 w-full" />
-
+        <div className="h-1 bg-gradient-to-r from-blue-100 via-blue-50 to-blue-200 opacity-80 w-full" />
         {/* Sub-header de categorias (desktop) */}
         {categoriesOpen && (
           <div
             id="categories-panel"
-            className="w-full flex justify-center z-50 bg-gray-50 border-b border-gray-200 shadow"
+            className="w-full flex justify-center z-50 bg-blue-50 border-b border-blue-200 shadow"
             style={{
               position: "fixed",
               left: 0,
@@ -427,12 +441,15 @@ export default function Header2() {
               transition: "box-shadow 0.2s",
             }}
           >
-            <div className="max-w-6xl w-full flex flex-wrap gap-2 px-4 py-3" style={{ alignItems: "center" }}>
+            <div
+              className="max-w-6xl w-full flex flex-wrap gap-2 px-4 py-3"
+              style={{ alignItems: "center" }}
+            >
               {categories.map((cat) => (
                 <a
                   key={cat}
                   href="#"
-                  className="px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100"
+                  className="px-4 py-2 rounded text-base font-medium text-blue-700 hover:bg-blue-100 transition border border-blue-100"
                   onClick={() => setCategoriesOpen(false)}
                 >
                   {cat}
@@ -445,7 +462,7 @@ export default function Header2() {
         {moreOpen && (
           <div
             id="more-panel"
-            className="w-full flex justify-center z-50 bg-gray-50 border-b border-gray-200 shadow"
+            className="w-full flex justify-center z-50 bg-blue-50 border-b border-blue-200 shadow"
             style={{
               position: "fixed",
               left: 0,
@@ -456,12 +473,15 @@ export default function Header2() {
               transition: "box-shadow 0.2s",
             }}
           >
-            <div className="max-w-6xl w-full flex flex-wrap gap-2 px-4 py-3" style={{ alignItems: "center" }}>
+            <div
+              className="max-w-6xl w-full flex flex-wrap gap-2 px-4 py-3"
+              style={{ alignItems: "center" }}
+            >
               {moreOptions.map((opt) => (
                 <a
                   key={opt}
                   href="#"
-                  className="px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100"
+                  className="px-4 py-2 rounded text-base font-medium text-blue-700 hover:bg-blue-100 transition border border-blue-100"
                   onClick={() => setMoreOpen(false)}
                 >
                   {opt}
@@ -471,22 +491,21 @@ export default function Header2() {
           </div>
         )}
       </header>
-
       {/* Mobile Dropdown */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-gray-50/95 backdrop-blur"
+          className="fixed inset-0 z-50 flex flex-col bg-blue-50/95 backdrop-blur"
           style={{
             height: "100vh",
           }}
           onClick={handleBackdropClick}
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white/90">
-            <span className="text-2xl font-extrabold tracking-tight select-none text-gray-900">
-              LOGO
+          <div className="flex items-center justify-between px-6 py-4 border-b border-blue-200 bg-white/90">
+            <span className="text-2xl font-extrabold tracking-tight select-none text-blue-700">
+              E-Shop
             </span>
             <button
-              className="p-2 rounded-full shadow transition focus:outline-none bg-white text-gray-900 border border-gray-200"
+              className="p-2 rounded-full shadow transition focus:outline-none bg-white text-blue-700 border border-blue-200"
               aria-label="Fechar menu"
               onClick={() => setMenuOpen(false)}
             >
@@ -510,23 +529,23 @@ export default function Header2() {
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Buscar produtos..."
-                className="w-full px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition text-base shadow-sm"
+                className="w-full px-4 py-2 rounded border border-blue-200 bg-blue-50 text-blue-800 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-base shadow-sm"
                 onFocus={() => search.length > 1 && setSearchOpen(true)}
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-gray-500 hover:bg-gray-100 transition"
+                className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full ${primary} ${primaryText} ${primaryHover} transition`}
                 tabIndex={-1}
               >
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>
               {searchOpen && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-30 overflow-hidden">
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-blue-200 rounded-xl shadow-lg z-30 overflow-hidden">
                   {searchResults.map((result, idx) => (
                     <button
                       key={result + idx}
                       type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-900 transition"
+                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-blue-800 transition"
                       onClick={() => handleResultClick(result)}
                     >
                       {result}
@@ -538,16 +557,14 @@ export default function Header2() {
             <nav className="flex flex-col gap-4 px-8 py-10 items-center w-full max-w-md mx-auto">
               <a
                 href="#"
-                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-gray-900 bg-white hover:bg-gray-100 shadow"
+                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-blue-700 bg-white hover:bg-blue-50 shadow"
                 onClick={() => setMenuOpen(false)}
               >
                 Início
               </a>
               {/* Categorias mobile */}
               <details className="w-full">
-                <summary
-                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-gray-900 hover:bg-gray-100 shadow"
-                >
+                <summary className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-blue-700 hover:bg-blue-50 shadow">
                   Categorias
                   <ChevronDownIcon className="h-5 w-5 ml-2" />
                 </summary>
@@ -556,7 +573,7 @@ export default function Header2() {
                     <a
                       key={cat}
                       href="#"
-                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100 bg-white"
+                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-blue-700 hover:bg-blue-50 transition border border-blue-100 bg-white"
                       onClick={() => setMenuOpen(false)}
                     >
                       {cat}
@@ -566,9 +583,7 @@ export default function Header2() {
               </details>
               {/* Mais opções mobile */}
               <details className="w-full">
-                <summary
-                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-gray-900 hover:bg-gray-100 shadow"
-                >
+                <summary className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-blue-700 hover:bg-blue-50 shadow">
                   Mais opções
                   <ChevronDownIcon className="h-5 w-5 ml-2" />
                 </summary>
@@ -577,7 +592,7 @@ export default function Header2() {
                     <a
                       key={opt}
                       href="#"
-                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100 bg-white"
+                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-blue-700 hover:bg-blue-50 transition border border-blue-100 bg-white"
                       onClick={() => setMenuOpen(false)}
                     >
                       {opt}
@@ -587,29 +602,51 @@ export default function Header2() {
               </details>
               <a
                 href="#"
-                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-gray-900 bg-white hover:bg-gray-100 shadow"
+                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-blue-700 bg-white hover:bg-blue-50 shadow"
                 onClick={() => setMenuOpen(false)}
               >
                 Sobre
               </a>
+              {/* Carrinho no mobile */}
+              <Link
+                href="/carrinho"
+                className="relative w-full flex items-center justify-center rounded-2xl py-3 px-6 mb-2 bg-white text-blue-700 hover:bg-blue-50 shadow font-bold text-xl transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <ShoppingCartIcon className="h-7 w-7 mr-2" />
+                Carrinho
+                {cartCount > 0 && (
+                  <span className="ml-2 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
               {/* Login/Register CTA mobile OU User Dropdown mobile */}
               <div className="w-full flex flex-col items-center mt-6">
                 {!user ? (
                   <Link
                     href="/login"
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-gray-900 text-white hover:bg-gray-700"
+                    className={`${primary} ${primaryText} ${primaryHover} w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none`}
                     onClick={() => setMenuOpen(false)}
                   >
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                      <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#fff" strokeWidth="1.5"/>
-                      <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#fff" strokeWidth="1.5"/>
+                      <path
+                        d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+                        stroke="#fff"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7"
+                        stroke="#fff"
+                        strokeWidth="1.5"
+                      />
                     </svg>
                     Entrar
                   </Link>
                 ) : (
                   <div className="w-full flex flex-col items-center">
                     <button
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"
                       onClick={handleLogout}
                     >
                       <ArrowRightOnRectangleIcon className="h-5 w-5" />
