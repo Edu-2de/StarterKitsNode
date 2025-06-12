@@ -5,6 +5,7 @@ import Header2 from "@/components/headers/header2";
 import Header3 from "@/components/headers/header3";
 
 import Hero1 from "@/components/heros/hero1";
+import Hero2 from "@/components/heros/hero2";
 
 import Main1 from "@/components/maincontents/main1";
 
@@ -23,7 +24,7 @@ export default function Home() {
   const chooseHeader = (header: "Header 1" | "Header 2" | "Header 3") => {
     setHeader(header);
   };
-  const chooseHero = (hero: "Hero 1") => {
+  const chooseHero = (hero: "Hero 1" | "Hero 2") => {
     setHero(hero);
   };
   const chooseMain = (main: "Main 1") => {
@@ -38,7 +39,8 @@ export default function Home() {
       {/* Renderiza o header selecionado */}
       {header === "Header 1" ? <Header1 /> : header === "Header 2" ? <Header2 /> : <Header3 />}
       <main>
-        {hero === "Hero 1" && <Hero1 />}
+        {hero === "Hero 1" ? <Hero1 /> : hero === "Hero 2" ? <Hero2 /> : null}
+
         {main === "Main 1" && <Main1 />}
       </main>
       {/* Renderiza o footer selecionado */}
@@ -121,6 +123,16 @@ export default function Home() {
                 onClick={() => chooseHero("Hero 1")}
               >
                 Hero 1
+              </button>
+                <button
+                className={`px-4 py-2 rounded-lg font-semibold border transition text-sm text-left ${
+                  hero === "Hero 2"
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200"
+                }`}
+                onClick={() => chooseHero("Hero 2")}
+              >
+                Hero 2
               </button>
             </div>
             {/* Main */}
