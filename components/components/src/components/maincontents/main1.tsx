@@ -1,25 +1,25 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { FiHeart, FiUser, FiActivity, FiChevronDown, FiSmile, FiMessageCircle } from "react-icons/fi";
+import { FiHeart, FiUser, FiActivity, FiChevronDown, FiSmile } from "react-icons/fi";
 
 const ESPECIALIDADES = [
   {
-    icon: <FiHeart className="text-2xl text-red-400" />,
+    icon: <FiHeart className="text-2xl text-neutral-700 group-hover:text-neutral-900 transition-colors" />,
     title: "Cardiologia",
     desc: "Diagnóstico e tratamento de doenças do coração com tecnologia de ponta.",
   },
   {
-    icon: <FiActivity className="text-2xl text-blue-400" />,
+    icon: <FiActivity className="text-2xl text-neutral-700 group-hover:text-neutral-900 transition-colors" />,
     title: "Clínica Geral",
     desc: "Atendimento completo e humanizado para todas as idades.",
   },
   {
-    icon: <FiUser className="text-2xl text-emerald-400" />,
+    icon: <FiUser className="text-2xl text-neutral-700 group-hover:text-neutral-900 transition-colors" />,
     title: "Pediatria",
     desc: "Cuidado especial para crianças, do nascimento à adolescência.",
   },
   {
-    icon: <FiHeart className="text-2xl text-pink-400" />,
+    icon: <FiHeart className="text-2xl text-neutral-700 group-hover:text-neutral-900 transition-colors" />,
     title: "Ortopedia",
     desc: "Tratamento de ossos, músculos e articulações com especialistas.",
   },
@@ -85,6 +85,15 @@ export default function Main1() {
     setTimeout(() => setShowMsg(false), 2200);
   };
 
+  // Efeito parallax suave nos cards ao mover o mouse
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  function handleParallax(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const rect = (e.target as HTMLDivElement).getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
+    setParallax({ x, y });
+  }
+
   return (
     <main className="relative bg-white min-h-[1200px] flex flex-col items-center px-4 py-20 md:py-32">
       {/* Sombra decorativa */}
@@ -99,82 +108,128 @@ export default function Main1() {
             : "opacity-0 translate-y-12"
         }`}
       >
-        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight">
+        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight animate-fade-in">
           Especialidades em destaque
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {ESPECIALIDADES.map((esp, i) => (
-            <div
-              key={esp.title}
-              className={`group bg-white border border-neutral-200 rounded-2xl p-7 flex flex-col items-center shadow-md transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl`}
-              style={{
-                transitionDelay: `${i * 80}ms`,
-              }}
-              onMouseEnter={() => setHoveredCard(i)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              <div className="mb-4">{esp.icon}</div>
-              <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-blue-700 transition">
-                {esp.title}
-              </h3>
-              <p className="text-neutral-500 text-sm text-center mb-3">{esp.desc}</p>
-              {hoveredCard === i && (
-                <button
-                  className="mt-2 px-4 py-2 rounded-full bg-neutral-900 text-white font-medium text-sm shadow hover:bg-neutral-700 transition animate-fade-in"
-                  onClick={handleMsg}
-                  type="button"
+        <div className="relative">
+          {/* Linha animada de fundo */}
+          <div className="absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-neutral-200 via-neutral-100 to-neutral-200 rounded-full blur-sm opacity-70 pointer-events-none" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+            {ESPECIALIDADES.map((esp, i) => (
+              <div
+                key={esp.title}
+                className={`group bg-white border border-neutral-200 rounded-2xl p-7 flex flex-col items-center shadow-md transition-all duration-500 cursor-pointer hover:-translate-y-4 hover:shadow-2xl hover:scale-105`}
+                style={{
+                  transitionDelay: `${i * 80}ms`,
+                  boxShadow:
+                    hoveredCard === i
+                      ? "0 8px 32px 0 rgba(30,30,30,0.10)"
+                      : undefined,
+                  zIndex: hoveredCard === i ? 2 : 1,
+                }}
+                tabIndex={0}
+                onMouseEnter={() => setHoveredCard(i)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onFocus={() => setHoveredCard(i)}
+                onBlur={() => setHoveredCard(null)}
+                onMouseMove={hoveredCard === i ? handleParallax : undefined}
+                aria-label={esp.title}
+              >
+                <div
+                  className={`mb-4 transition-transform duration-300 ${
+                    hoveredCard === i ? "scale-125 rotate-6" : ""
+                  }`}
                 >
-                  Quero saber mais
-                </button>
-              )}
-            </div>
-          ))}
+                  {esp.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-neutral-900 transition">
+                  {esp.title}
+                </h3>
+                <p className="text-neutral-500 text-sm text-center mb-3">{esp.desc}</p>
+                {/* Efeito: botão flutuante */}
+                <div className="h-8 flex items-center justify-center">
+                  {hoveredCard === i && (
+                    <button
+                      className="px-4 py-2 rounded-full bg-neutral-900 text-white font-medium text-sm shadow hover:bg-neutral-700 transition animate-fade-in"
+                      onClick={handleMsg}
+                      type="button"
+                    >
+                      Quero saber mais
+                    </button>
+                  )}
+                </div>
+                {/* Efeito: brilho animado */}
+                <span
+                  className={`absolute left-1/2 top-0 -translate-x-1/2 w-2/3 h-1 rounded-full bg-gradient-to-r from-neutral-100 via-white to-neutral-100 blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ${
+                    hoveredCard === i ? "opacity-80" : ""
+                  }`}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Diferenciais */}
       <section className="w-full max-w-4xl mx-auto mb-24">
-        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight">
+        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight animate-fade-in">
           Por que escolher nossa clínica?
         </h2>
-        <ul className="space-y-5">
-          {DIFERENCIAIS.map((dif, idx) => (
-            <li
-              key={dif}
-              className={`bg-neutral-50 border border-neutral-200 rounded-xl px-6 py-5 flex items-center justify-between cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md ${
-                openDiff === idx ? "bg-neutral-100" : ""
-              }`}
-              onClick={() => setOpenDiff(openDiff === idx ? null : idx)}
-            >
-              <span className="text-neutral-800 font-medium">{dif}</span>
-              <FiChevronDown
-                className={`ml-2 text-xl text-neutral-400 transition-transform ${
-                  openDiff === idx ? "rotate-180" : ""
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex-1 flex flex-col gap-5">
+            {DIFERENCIAIS.map((dif, idx) => (
+              <div
+                key={dif}
+                className={`relative bg-neutral-50 border border-neutral-200 rounded-xl px-6 py-5 flex items-center cursor-pointer transition-all duration-300 shadow-sm hover:shadow-lg group ${
+                  openDiff === idx ? "bg-neutral-100 scale-[1.03] shadow-md" : ""
                 }`}
-              />
-            </li>
-          ))}
-        </ul>
-        {/* Efeito: texto extra ao expandir */}
-        {openDiff !== null && (
-          <div className="mt-4 px-6 py-4 bg-white border border-neutral-200 rounded-xl shadow animate-fade-in text-neutral-600 text-base">
-            {openDiff === 0 && "Nossa equipe é formada por profissionais renomados, sempre atentos ao cuidado humano e à atualização científica."}
-            {openDiff === 1 && "Priorizamos o seu tempo, com processos ágeis e atendimento sem complicações."}
-            {openDiff === 2 && "Ambientes pensados para o seu conforto e bem-estar em todas as etapas do atendimento."}
-            {openDiff === 3 && "Equipamentos modernos garantem diagnósticos precisos e seguros para você."}
+                onClick={() => setOpenDiff(openDiff === idx ? null : idx)}
+                tabIndex={0}
+                onKeyDown={e => {
+                  if (e.key === "Enter" || e.key === " ") setOpenDiff(openDiff === idx ? null : idx);
+                }}
+                aria-expanded={openDiff === idx}
+              >
+                <span className="text-neutral-800 font-medium flex-1">{dif}</span>
+                <FiChevronDown
+                  className={`ml-2 text-xl text-neutral-400 transition-transform ${
+                    openDiff === idx ? "rotate-180" : ""
+                  }`}
+                />
+                {/* Efeito: linha animada à esquerda */}
+                <span
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-full bg-neutral-300 transition-all duration-500 ${
+                    openDiff === idx ? "bg-neutral-700 h-12" : ""
+                  }`}
+                />
+              </div>
+            ))}
           </div>
-        )}
+          {/* Efeito: detalhe animado ao expandir */}
+          <div className="flex-1 flex items-center justify-center">
+            {openDiff !== null && (
+              <div className="w-full animate-fade-in">
+                <div className="px-8 py-8 bg-white border border-neutral-200 rounded-2xl shadow text-neutral-700 text-lg text-center">
+                  {openDiff === 0 && "Nossa equipe é formada por profissionais renomados, sempre atentos ao cuidado humano e à atualização científica."}
+                  {openDiff === 1 && "Priorizamos o seu tempo, com processos ágeis e atendimento sem complicações."}
+                  {openDiff === 2 && "Ambientes pensados para o seu conforto e bem-estar em todas as etapas do atendimento."}
+                  {openDiff === 3 && "Equipamentos modernos garantem diagnósticos precisos e seguros para você."}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* Depoimentos carrossel */}
       <section className="w-full max-w-3xl mx-auto mb-24">
-        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight">
+        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight animate-fade-in">
           O que nossos pacientes dizem
         </h2>
         <div className="relative flex flex-col items-center">
           <div className="bg-neutral-50 border border-neutral-200 rounded-2xl shadow-md px-8 py-8 w-full animate-fade-in">
             <div className="flex items-center gap-3 mb-2">
-              <FiSmile className="text-2xl text-emerald-400" />
+              <FiSmile className="text-2xl text-neutral-700" />
               <span className="font-semibold text-neutral-800">{DEPOIMENTOS[depoIndex].nome}</span>
             </div>
             <p className="text-neutral-700 text-lg italic">"{DEPOIMENTOS[depoIndex].texto}"</p>
