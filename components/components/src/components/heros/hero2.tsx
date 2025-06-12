@@ -1,45 +1,79 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Hero2() {
-  const carrouselItems = [
-    {
-      title: "Bem-vindo ao nosso site",
-      description: "Descubra nossos serviços e agende uma consulta facilmente.",
-      backgroundColor: "#f0f0f0",
-    },
-    {
-      title: "Atendimento de qualidade",
-      description: "Nossa equipe está pronta para atender você com excelência.",
-      backgroundColor: "#f0f0f0",
-    },
-    {
-      title: "Agendamento online",
-      description: "Agende sua consulta de forma rápida e prática.",
-      backgroundColor: "#f0f0f0",
-    },
-  ];
+      const carrouselItems = [
+      {
+            title: "Bem-vindo ao nosso site",
+            description: "Descubra nossos serviços e agende uma consulta facilmente.",
+            backgroundColor: "#f0f0f0",
+      },
+      {
+            title: "Atendimento de qualidade",
+            description: "Nossa equipe está pronta para atender você com excelência.",
+            backgroundColor: "#f0f0f0",
+      },
+      {
+            title: "Agendamento online",
+            description: "Agende sua consulta de forma rápida e prática.",
+            backgroundColor: "#f0f0f0",
+      },
+      ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const currentItem = carrouselItems[currentIndex];
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const currentItem = carrouselItems[currentIndex];
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? carrouselItems.length - 1 : prev - 1
-    );
-  };
+      const prevSlide = () => {
+      setCurrentIndex((prev) =>
+            prev === 0 ? carrouselItems.length - 1 : prev - 1
+      );
+      };
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === carrouselItems.length - 1 ? 0 : prev + 1
-    );
-  };
+      const nextSlide = () => {
+      setCurrentIndex((prev) =>
+            prev === carrouselItems.length - 1 ? 0 : prev + 1
+      );
+      };
+
+
+      useEffect(() => {
+      const interval = setInterval(() => {
+      setCurrentIndex((prev) =>
+            prev === carrouselItems.length - 1 ? 0 : prev + 1
+      );
+      }, 4000);
+
+      return () => clearInterval(interval);
+      }, [carrouselItems.length]);
+
+
+
+
+
+      useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft") {
+                  prevSlide();
+            } else if (e.key === "ArrowRight") {
+                  nextSlide();
+            }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+      };
+      }, );
+
+  
 
   return (
     <section className="relative bg-neutral-50 min-h-[520px] flex items-center justify-center px-4 pt-40 pb-16 md:pt-56 md:pb-28">
       <div className="relative w-full max-w-2xl mx-auto rounded-3xl overflow-hidden shadow-lg">
+            
         {/* Banner principal */}
-        <div
+        <div 
           className="flex flex-col items-center justify-center py-20 px-8 md:px-16 transition-all duration-500"
           style={{ backgroundColor: currentItem.backgroundColor, minHeight: 320 }}
         >
