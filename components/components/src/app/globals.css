@@ -47,3 +47,7 @@ body {
 .animate-fade-in {
   animation: fade-in 0.15s ease;
 }
+
+header{
+  z-index: 1000;
+}

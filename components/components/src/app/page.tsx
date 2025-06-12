@@ -1,18 +1,28 @@
 'use client';
 
-import Content from "@/components/content";
 import Header1 from "@/components/headers/header1";
 import Header2 from "@/components/headers/header2";
 import Header3 from "@/components/headers/header3";
+
+import Hero1 from "@/components/heros/hero1";
+import Main1 from "@/components/maincontents/main1";
 import { useState } from "react";
 import React from "react";
 
 export default function Home() {
   const [header, setHeader] = useState("Header 1");
+  const [hero, setHero] = useState("Hero 1");
+  const [main, setMain] = useState("Main 1");
   const [panelOpen, setPanelOpen] = useState(true);
 
   const chooseHeader = (header: "Header 1" | "Header 2" | "Header 3") => {
     setHeader(header);
+  };
+  const chooseHero = (hero: "Hero 1") => {
+    setHero(hero);
+  };
+  const chooseMain = (main: "Main 1") => {
+    setMain(main);
   };
 
   return (
@@ -20,9 +30,10 @@ export default function Home() {
       {/* Renderiza o header selecionado */}
       {header === "Header 1" ? <Header1 /> : header === "Header 2" ? <Header2 /> : <Header3 />}
       <main>
-        <Content />
+        {hero === "Hero 1" && <Hero1 />}
+        {main === "Main 1" && <Main1 />}
       </main>
-      {/* Controle fixo de troca de header */}
+      {/* Controle fixo de troca de header, hero e main */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
         {/* Botão para expandir/recolher */}
         {!panelOpen && (
@@ -38,7 +49,7 @@ export default function Home() {
           </button>
         )}
         {panelOpen && (
-          <div className="flex flex-col gap-4 min-w-[220px] bg-white/95 border border-neutral-200 shadow-2xl rounded-2xl p-5 backdrop-blur-md relative">
+          <div className="flex flex-col gap-4 min-w-[240px] bg-white/95 border border-neutral-200 shadow-2xl rounded-2xl p-5 backdrop-blur-md relative">
             {/* Botão para recolher */}
             <button
               className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center shadow border border-neutral-300 hover:bg-neutral-300 transition"
@@ -54,6 +65,7 @@ export default function Home() {
             <span className="text-xs font-semibold text-neutral-700 mb-1 text-center select-none tracking-wide uppercase">
               Painel de Layout
             </span>
+            {/* Header */}
             <div className="flex flex-col gap-2">
               <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Header</span>
               <button
@@ -87,17 +99,36 @@ export default function Home() {
                 Header 3
               </button>
             </div>
-            {/* Espaço reservado para futuras opções */}
+            {/* Hero */}
             <div className="mt-4 flex flex-col gap-2">
-              <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Hero (em breve)</span>
+              <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Hero</span>
               <button
-                className="px-4 py-2 rounded-lg font-semibold border border-neutral-200 bg-neutral-100 text-neutral-400 text-sm text-left cursor-not-allowed"
-                disabled
+                className={`px-4 py-2 rounded-lg font-semibold border transition text-sm text-left ${
+                  hero === "Hero 1"
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200"
+                }`}
+                onClick={() => chooseHero("Hero 1")}
               >
                 Hero 1
               </button>
             </div>
-            <div className="mt-2 flex flex-col gap-2">
+            {/* Main */}
+            <div className="mt-4 flex flex-col gap-2">
+              <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Main Content</span>
+              <button
+                className={`px-4 py-2 rounded-lg font-semibold border transition text-sm text-left ${
+                  main === "Main 1"
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200"
+                }`}
+                onClick={() => chooseMain("Main 1")}
+              >
+                Main 1
+              </button>
+            </div>
+            {/* Footer (em breve) */}
+            <div className="mt-4 flex flex-col gap-2">
               <span className="text-[11px] font-medium text-neutral-500 mb-1 pl-1">Footer (em breve)</span>
               <button
                 className="px-4 py-2 rounded-lg font-semibold border border-neutral-200 bg-neutral-100 text-neutral-400 text-sm text-left cursor-not-allowed"
