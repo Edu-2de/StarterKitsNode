@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { FiHeart, FiUser, FiActivity, FiChevronDown } from "react-icons/fi";
+import { FiHeart, FiUser, FiActivity, FiChevronDown, FiSmile, FiMessageCircle } from "react-icons/fi";
 
 const ESPECIALIDADES = [
   {
@@ -32,8 +32,23 @@ const DIFERENCIAIS = [
   "Tecnologia de ponta em exames",
 ];
 
+const DEPOIMENTOS = [
+  {
+    nome: "Maria S.",
+    texto: "Fui muito bem atendida, equipe atenciosa e ambiente acolhedor.",
+  },
+  {
+    nome: "Carlos P.",
+    texto: "Consulta rápida, sem filas e com ótimos profissionais.",
+  },
+  {
+    nome: "Juliana R.",
+    texto: "Ambiente limpo, organizado e médicos excelentes!",
+  },
+];
+
 export default function Main1() {
-  // Efeito de fade-in ao rolar
+  // Fade-in especialidades ao rolar
   const especialidadesRef = useRef<HTMLDivElement>(null);
   const [showEspecialidades, setShowEspecialidades] = useState(false);
 
@@ -48,8 +63,27 @@ export default function Main1() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Efeito de expandir diferencial ao clicar
+  // Diferenciais interativos
   const [openDiff, setOpenDiff] = useState<number | null>(null);
+
+  // Depoimentos: carrossel simples com JS
+  const [depoIndex, setDepoIndex] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDepoIndex((i) => (i + 1) % DEPOIMENTOS.length);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [depoIndex]);
+
+  // Efeito de hover nos cards: mostra botão de ação
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+  // Efeito de mensagem animada para interação
+  const [showMsg, setShowMsg] = useState(false);
+  const handleMsg = () => {
+    setShowMsg(true);
+    setTimeout(() => setShowMsg(false), 2200);
+  };
 
   return (
     <main className="relative bg-white min-h-[1200px] flex flex-col items-center px-4 py-20 md:py-32">
@@ -72,16 +106,27 @@ export default function Main1() {
           {ESPECIALIDADES.map((esp, i) => (
             <div
               key={esp.title}
-              className="group bg-white border border-neutral-200 rounded-2xl p-7 flex flex-col items-center shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-2"
+              className={`group bg-white border border-neutral-200 rounded-2xl p-7 flex flex-col items-center shadow-md transition-all duration-300 cursor-pointer hover:-translate-y-2 hover:shadow-xl`}
               style={{
                 transitionDelay: `${i * 80}ms`,
               }}
+              onMouseEnter={() => setHoveredCard(i)}
+              onMouseLeave={() => setHoveredCard(null)}
             >
               <div className="mb-4">{esp.icon}</div>
               <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-blue-700 transition">
                 {esp.title}
               </h3>
-              <p className="text-neutral-500 text-sm text-center">{esp.desc}</p>
+              <p className="text-neutral-500 text-sm text-center mb-3">{esp.desc}</p>
+              {hoveredCard === i && (
+                <button
+                  className="mt-2 px-4 py-2 rounded-full bg-neutral-900 text-white font-medium text-sm shadow hover:bg-neutral-700 transition animate-fade-in"
+                  onClick={handleMsg}
+                  type="button"
+                >
+                  Quero saber mais
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -121,6 +166,35 @@ export default function Main1() {
         )}
       </section>
 
+      {/* Depoimentos carrossel */}
+      <section className="w-full max-w-3xl mx-auto mb-24">
+        <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 text-center mb-10 tracking-tight">
+          O que nossos pacientes dizem
+        </h2>
+        <div className="relative flex flex-col items-center">
+          <div className="bg-neutral-50 border border-neutral-200 rounded-2xl shadow-md px-8 py-8 w-full animate-fade-in">
+            <div className="flex items-center gap-3 mb-2">
+              <FiSmile className="text-2xl text-emerald-400" />
+              <span className="font-semibold text-neutral-800">{DEPOIMENTOS[depoIndex].nome}</span>
+            </div>
+            <p className="text-neutral-700 text-lg italic">"{DEPOIMENTOS[depoIndex].texto}"</p>
+          </div>
+          <div className="flex gap-2 mt-4">
+            {DEPOIMENTOS.map((_, idx) => (
+              <button
+                key={idx}
+                className={`w-3 h-3 rounded-full border border-neutral-300 transition-all ${
+                  depoIndex === idx ? "bg-neutral-900" : "bg-neutral-200"
+                }`}
+                onClick={() => setDepoIndex(idx)}
+                aria-label={`Ver depoimento ${idx + 1}`}
+                type="button"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Call to action */}
       <section className="w-full max-w-3xl mx-auto text-center mt-16">
         <div className="bg-neutral-900 rounded-3xl py-12 px-6 md:px-16 shadow-xl flex flex-col items-center gap-6">
@@ -138,6 +212,13 @@ export default function Main1() {
           </a>
         </div>
       </section>
+
+      {/* Mensagem animada ao clicar em "Quero saber mais" */}
+      {showMsg && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-lg animate-fade-in">
+          Em breve você poderá saber mais sobre esta especialidade!
+        </div>
+      )}
 
       {/* Animação fade-in */}
       <style>{`
