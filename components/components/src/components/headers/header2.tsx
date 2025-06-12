@@ -19,7 +19,6 @@ export default function Header2() {
   const [user, setUser] = useState<{ name: string } | null>(null);
 
   useEffect(() => {
-    // Simples: pega do localStorage (ideal: usar Context/AuthProvider)
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     const userName = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
     if (token && userName) {
@@ -29,7 +28,6 @@ export default function Header2() {
     }
   }, []);
 
-  // Fecha dropdown do usuário ao clicar fora
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const userBtn = document.getElementById("user-btn");
@@ -57,7 +55,6 @@ export default function Header2() {
     window.location.href = "/login";
   }
 
-  // Simulação de busca (mock)
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     setSearch(value);
@@ -84,7 +81,6 @@ export default function Header2() {
     setSearchOpen(false);
   }
 
-  // Fecha dropdown ao clicar fora
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (
@@ -100,7 +96,6 @@ export default function Header2() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [searchOpen]);
 
-  // Fecha categorias ao clicar fora
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const catBtn = document.getElementById("categories-btn");
@@ -120,7 +115,6 @@ export default function Header2() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [categoriesOpen]);
 
-  // Fecha "Mais opções" ao clicar fora
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const moreBtn = document.getElementById("more-btn");
@@ -140,7 +134,6 @@ export default function Header2() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [moreOpen]);
 
-  // Controla o header sumir só quando o menu não está aberto
   useEffect(() => {
     if (menuOpen) return;
 
@@ -210,7 +203,7 @@ export default function Header2() {
   return (
     <>
       <header
-        className={`bg-blue-700/90 backdrop-blur-md sticky top-0 z-50 transition-all border-b border-blue-800 shadow-lg`}
+        className={`bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-all border-b border-gray-200 shadow`}
         style={{
           transform: visible || menuOpen ? "translateY(0)" : "translateY(-110%)",
           opacity: visible || menuOpen ? 1 : 0,
@@ -220,21 +213,21 @@ export default function Header2() {
       >
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-2">
           {/* Logo */}
-          <span className="text-2xl font-extrabold tracking-tight select-none text-yellow-400 drop-shadow-sm">
-            Shop<span className="text-white">Now</span>
+          <span className="text-2xl font-extrabold tracking-tight select-none text-gray-900 drop-shadow-sm">
+            LOGO
           </span>
 
           {/* Navegação */}
           <nav className="hidden md:flex gap-6 items-center ml-8">
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-white hover:bg-blue-800/80"
+              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100"
             >
               Início
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-white hover:bg-blue-800/80 flex items-center gap-1 cursor-pointer"
+              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100 flex items-center gap-1 cursor-pointer"
               id="categories-btn"
               onClick={e => {
                 e.preventDefault();
@@ -261,7 +254,7 @@ export default function Header2() {
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-white hover:bg-blue-800/80 flex items-center gap-1 cursor-pointer"
+              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100 flex items-center gap-1 cursor-pointer"
               id="more-btn"
               onClick={e => {
                 e.preventDefault();
@@ -288,7 +281,7 @@ export default function Header2() {
             </a>
             <a
               href="#"
-              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-white hover:bg-blue-800/80"
+              className="px-3 py-2 rounded-full font-medium transition-colors duration-150 focus:outline-none text-gray-900 hover:bg-gray-100"
             >
               Sobre
             </a>
@@ -312,7 +305,7 @@ export default function Header2() {
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Buscar produtos..."
-                className="w-full px-3 py-2 rounded-full border border-blue-200 bg-white text-blue-900 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-base shadow-sm"
+                className="w-full px-3 py-2 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition text-base shadow-sm"
                 style={{
                   minWidth: 0,
                   fontSize: "1rem",
@@ -323,7 +316,7 @@ export default function Header2() {
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-blue-500 hover:bg-blue-100 transition"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-gray-500 hover:bg-gray-100 transition"
                 tabIndex={-1}
                 style={{
                   background: "transparent",
@@ -337,12 +330,12 @@ export default function Header2() {
               </button>
               {/* Dropdown de resultados */}
               {searchOpen && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-blue-200 rounded-xl shadow-lg z-30 overflow-hidden">
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-30 overflow-hidden">
                   {searchResults.map((result, idx) => (
                     <button
                       key={result + idx}
                       type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-blue-900 transition"
+                      className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-900 transition"
                       onClick={() => handleResultClick(result)}
                     >
                       {result}
@@ -355,7 +348,7 @@ export default function Header2() {
             {!user ? (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
+                className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-gray-900 text-white hover:bg-gray-700"
                 style={{
                   border: "none",
                   fontWeight: 700,
@@ -366,8 +359,8 @@ export default function Header2() {
                 }}
               >
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                  <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
-                  <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                  <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#fff" strokeWidth="1.5"/>
+                  <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#fff" strokeWidth="1.5"/>
                 </svg>
                 Entrar
               </Link>
@@ -375,15 +368,15 @@ export default function Header2() {
               <div className="relative">
                 <button
                   id="user-btn"
-                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-white text-blue-900 border border-blue-200 hover:bg-blue-50"
+                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full font-bold text-base shadow transition focus:outline-none focus:ring-2 bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
                   onClick={() => setUserDropdown((v) => !v)}
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={userDropdown}
                 >
                   <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
-                    <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#111" strokeWidth="1.5"/>
+                    <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#111" strokeWidth="1.5"/>
                   </svg>
                   <span>{user.name}</span>
                   <ChevronDownIcon className={`h-5 w-5 ml-1 transition-transform duration-200 ${userDropdown ? "rotate-180" : ""}`} />
@@ -391,10 +384,10 @@ export default function Header2() {
                 {userDropdown && (
                   <div
                     id="user-panel"
-                    className="absolute right-0 mt-2 w-44 bg-white border border-blue-200 rounded-xl shadow-lg z-40 overflow-hidden"
+                    className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-xl shadow-lg z-40 overflow-hidden"
                   >
                     <button
-                      className="w-full flex items-center gap-2 px-4 py-3 text-blue-900 hover:bg-blue-50 transition text-left"
+                      className="w-full flex items-center gap-2 px-4 py-3 text-gray-900 hover:bg-gray-50 transition text-left"
                       onClick={handleLogout}
                     >
                       <ArrowRightOnRectangleIcon className="h-5 w-5" />
@@ -408,22 +401,22 @@ export default function Header2() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-full border border-blue-200 bg-white shadow transition focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="md:hidden p-2 rounded-full border border-gray-200 bg-white shadow transition focus:outline-none focus:ring-2 focus:ring-gray-300"
             aria-label="Abrir menu"
             onClick={() => setMenuOpen(true)}
           >
-            <Bars3Icon className="h-7 w-7 text-blue-700" />
+            <Bars3Icon className="h-7 w-7 text-gray-900" />
           </button>
         </div>
 
         {/* Linha abaixo do header */}
-        <div className="h-1 bg-gradient-to-r from-blue-200 via-blue-100 to-yellow-100 opacity-80 w-full" />
+        <div className="h-1 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-200 opacity-80 w-full" />
 
         {/* Sub-header de categorias (desktop) */}
         {categoriesOpen && (
           <div
             id="categories-panel"
-            className="w-full flex justify-center z-50 bg-blue-50 border-b border-blue-200 shadow"
+            className="w-full flex justify-center z-50 bg-gray-50 border-b border-gray-200 shadow"
             style={{
               position: "fixed",
               left: 0,
@@ -439,7 +432,7 @@ export default function Header2() {
                 <a
                   key={cat}
                   href="#"
-                  className="px-4 py-2 rounded text-base font-medium text-blue-900 hover:bg-blue-100 transition border border-blue-100"
+                  className="px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100"
                   onClick={() => setCategoriesOpen(false)}
                 >
                   {cat}
@@ -452,7 +445,7 @@ export default function Header2() {
         {moreOpen && (
           <div
             id="more-panel"
-            className="w-full flex justify-center z-50 bg-blue-50 border-b border-blue-200 shadow"
+            className="w-full flex justify-center z-50 bg-gray-50 border-b border-gray-200 shadow"
             style={{
               position: "fixed",
               left: 0,
@@ -468,7 +461,7 @@ export default function Header2() {
                 <a
                   key={opt}
                   href="#"
-                  className="px-4 py-2 rounded text-base font-medium text-blue-900 hover:bg-blue-100 transition border border-blue-100"
+                  className="px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100"
                   onClick={() => setMoreOpen(false)}
                 >
                   {opt}
@@ -482,18 +475,18 @@ export default function Header2() {
       {/* Mobile Dropdown */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-blue-50/95 backdrop-blur"
+          className="fixed inset-0 z-50 flex flex-col bg-gray-50/95 backdrop-blur"
           style={{
             height: "100vh",
           }}
           onClick={handleBackdropClick}
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-blue-200 bg-white/90">
-            <span className="text-2xl font-extrabold tracking-tight select-none text-yellow-400">
-              Shop<span className="text-blue-900">Now</span>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white/90">
+            <span className="text-2xl font-extrabold tracking-tight select-none text-gray-900">
+              LOGO
             </span>
             <button
-              className="p-2 rounded-full shadow transition focus:outline-none bg-white text-blue-700 border border-blue-200"
+              className="p-2 rounded-full shadow transition focus:outline-none bg-white text-gray-900 border border-gray-200"
               aria-label="Fechar menu"
               onClick={() => setMenuOpen(false)}
             >
@@ -517,23 +510,23 @@ export default function Header2() {
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Buscar produtos..."
-                className="w-full px-4 py-2 rounded-full border border-blue-200 bg-white text-blue-900 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-base shadow-sm"
+                className="w-full px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition text-base shadow-sm"
                 onFocus={() => search.length > 1 && setSearchOpen(true)}
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-blue-500 hover:bg-blue-100 transition"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full text-gray-500 hover:bg-gray-100 transition"
                 tabIndex={-1}
               >
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>
               {searchOpen && searchResults.length > 0 && (
-                <div className="absolute left-0 right-0 mt-2 bg-white border border-blue-200 rounded-xl shadow-lg z-30 overflow-hidden">
+                <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-30 overflow-hidden">
                   {searchResults.map((result, idx) => (
                     <button
                       key={result + idx}
                       type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-blue-50 text-blue-900 transition"
+                      className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-900 transition"
                       onClick={() => handleResultClick(result)}
                     >
                       {result}
@@ -545,7 +538,7 @@ export default function Header2() {
             <nav className="flex flex-col gap-4 px-8 py-10 items-center w-full max-w-md mx-auto">
               <a
                 href="#"
-                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-blue-900 bg-white hover:bg-blue-100 shadow"
+                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-gray-900 bg-white hover:bg-gray-100 shadow"
                 onClick={() => setMenuOpen(false)}
               >
                 Início
@@ -553,7 +546,7 @@ export default function Header2() {
               {/* Categorias mobile */}
               <details className="w-full">
                 <summary
-                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-blue-900 hover:bg-blue-100 shadow"
+                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-gray-900 hover:bg-gray-100 shadow"
                 >
                   Categorias
                   <ChevronDownIcon className="h-5 w-5 ml-2" />
@@ -563,7 +556,7 @@ export default function Header2() {
                     <a
                       key={cat}
                       href="#"
-                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-blue-900 hover:bg-blue-100 transition border border-blue-100 bg-white"
+                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100 bg-white"
                       onClick={() => setMenuOpen(false)}
                     >
                       {cat}
@@ -574,7 +567,7 @@ export default function Header2() {
               {/* Mais opções mobile */}
               <details className="w-full">
                 <summary
-                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-blue-900 hover:bg-blue-100 shadow"
+                  className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 flex items-center justify-center cursor-pointer bg-white text-gray-900 hover:bg-gray-100 shadow"
                 >
                   Mais opções
                   <ChevronDownIcon className="h-5 w-5 ml-2" />
@@ -584,7 +577,7 @@ export default function Header2() {
                     <a
                       key={opt}
                       href="#"
-                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-blue-900 hover:bg-blue-100 transition border border-blue-100 bg-white"
+                      className="w-full text-center px-4 py-2 rounded text-base font-medium text-gray-900 hover:bg-gray-100 transition border border-gray-100 bg-white"
                       onClick={() => setMenuOpen(false)}
                     >
                       {opt}
@@ -594,7 +587,7 @@ export default function Header2() {
               </details>
               <a
                 href="#"
-                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-blue-900 bg-white hover:bg-blue-100 shadow"
+                className="w-full text-center text-xl font-bold rounded-2xl py-3 px-6 mb-2 transition-all duration-150 text-gray-900 bg-white hover:bg-gray-100 shadow"
                 onClick={() => setMenuOpen(false)}
               >
                 Sobre
@@ -604,19 +597,19 @@ export default function Header2() {
                 {!user ? (
                   <Link
                     href="/login"
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-yellow-400 text-blue-900 hover:bg-yellow-300"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-gray-900 text-white hover:bg-gray-700"
                     onClick={() => setMenuOpen(false)}
                   >
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                      <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#1e3a8a" strokeWidth="1.5"/>
-                      <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#1e3a8a" strokeWidth="1.5"/>
+                      <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#fff" strokeWidth="1.5"/>
+                      <path d="M21 21c0-3.866-4.03-7-9-7s-9 3.134-9 7" stroke="#fff" strokeWidth="1.5"/>
                     </svg>
                     Entrar
                   </Link>
                 ) : (
                   <div className="w-full flex flex-col items-center">
                     <button
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-white text-blue-900 border border-blue-200 hover:bg-blue-50"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-bold text-lg shadow transition focus:outline-none focus:ring-2 bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
                       onClick={handleLogout}
                     >
                       <ArrowRightOnRectangleIcon className="h-5 w-5" />
