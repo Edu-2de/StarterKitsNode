@@ -27,6 +27,18 @@ const addItem = (nome: string) => {
   setItens([...itens, novoItem]);
 };
 
+const removeUltimoItem = () => {
+  const listaultimo = lista.length;
+  for (let i = 0; i < listaultimo; i++) {
+    if (lista[i].id === listaultimo) {
+      lista.splice(i, 1);
+      setItens([...itens.slice(0, -1)]);
+      break;
+    }
+  }
+};
+
+
 return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <input
@@ -59,6 +71,8 @@ return (
       >
         Adicionar Item
       </button>
+
+     <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onClick={removeUltimoItem}>Remover último item</button>
     </div>
   );
 }
