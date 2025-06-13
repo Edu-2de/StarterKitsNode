@@ -17,7 +17,7 @@ const handleFiltro = (e: { target: { value: SetStateAction<string>; }; }) => {
       setFiltro(e.target.value);
 };
 
-const itensFiltrados = lista.filter(item =>
+const itensFiltrados = itens.filter(item =>
   item.nome.toLowerCase().replace(/\s+/g, "").includes(filtro.toLowerCase().replace(/\s+/g, ""))
 );
 
@@ -27,17 +27,10 @@ const addItem = (nome: string) => {
   setItens([...itens, novoItem]);
 };
 
-const removeUltimoItem = () => {
-  const listaultimo = lista.length;
-  for (let i = 0; i < listaultimo; i++) {
-    if (lista[i].id === listaultimo) {
-      lista.splice(i, 1);
-      setItens([...itens.slice(0, -1)]);
-      break;
-    }
-  }
-};
 
+const removeUltimoItem = () => {
+    setItens(itens => itens.slice(0, -1));
+  };
 
 return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
