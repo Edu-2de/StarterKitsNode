@@ -30,7 +30,16 @@ const addItem = (nome: string) => {
 
 const removeUltimoItem = () => {
     setItens(itens => itens.slice(0, -1));
-  };
+};
+
+
+const adivinhar = (numero: number) => {
+  alert(
+    numero === itens.length
+      ? "Parabéns! Você sabe quantos itens tem na lista."
+      : "Tente novamente!"
+  );
+};
 
 return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
@@ -41,6 +50,7 @@ return (
         placeholder="Filtrar itens..."
         className="mb-4 p-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent"
       />
+
       <ul className="list-disc">
 
             {filtro.trim() === "" ? (
@@ -66,6 +76,25 @@ return (
       </button>
 
      <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onClick={removeUltimoItem}>Remover último item</button>
+
+     <div>
+            <input
+            type="number"
+            placeholder="Adivinhe o número de itens"
+            className="mt-4 p-2 border border-gray-300 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+            onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                  adivinhar(Number(e.currentTarget.value));
+                  }
+            }}
+            />
+
+         
+     </div>
     </div>
+
+    
+
+    
   );
 }
