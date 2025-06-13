@@ -1,5 +1,6 @@
 "use client";
 import Teste1 from "@/components/testes/teste1";
+import Teste2 from "@/components/testes/teste2";
 export default function TestesPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 main-bg">
@@ -7,6 +8,7 @@ export default function TestesPage() {
         <h1 className="text-3xl font-bold">Página de Testes</h1>
        
       </main>
+      <Teste2 />
       <div className ="nao-usados hidden">
        <Teste1 />
       </div>
