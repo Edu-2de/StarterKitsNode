@@ -62,7 +62,7 @@ export default function Hero2() {
   }, []);
 
   return (
-    <section className="relative w-screen min-h-[60vh] md:min-h-[70vh] flex items-center justify-center bg-neutral-100 px-0 py-0 mt-24 md:mt-32">
+    <section className="relative w-screen min-h-[60vh] md:min-h-[70vh] flex items-center justify-center bg-neutral-100 px-0 py-0 mt-24 md:mt-20">
       <div className="relative w-full max-w-7xl mx-auto rounded-2xl overflow-hidden shadow-xl border border-neutral-200 bg-white/90">
         {/* Banner principal */}
         <div
