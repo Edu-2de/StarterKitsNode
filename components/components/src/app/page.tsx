@@ -9,6 +9,7 @@ import Hero2 from "@/components/heros/hero2";
 import Hero3 from "@/components/heros/hero3";
 
 import Main1 from "@/components/maincontents/main1";
+import Main2 from "@/components/maincontents/main2";
 
 import Footer1 from "@/components/footers/footer1";
 
@@ -28,7 +29,7 @@ export default function Home() {
   const chooseHero = (hero: "Hero 1" | "Hero 2" | "Hero 3") => {
     setHero(hero);
   };
-  const chooseMain = (main: "Main 1") => {
+  const chooseMain = (main: "Main 1" | "Main 2") => {
     setMain(main);
   };
   const chooseFooter = (footer: "Footer 1") => {
@@ -42,7 +43,7 @@ export default function Home() {
       <main>
         {hero === "Hero 1" ? <Hero1 /> : hero === "Hero 2" ? <Hero2 /> : hero === "Hero 3" ? <Hero3 /> : null}
 
-        {main === "Main 1" && <Main1 />}
+        {main === "Main 1" ? <Main1 /> : main === "Main 2" ? <Main2 /> : null}
       </main>
       {/* Renderiza o footer selecionado */}
       {footer === "Footer 1" && <Footer1 />}
@@ -158,6 +159,16 @@ export default function Home() {
                 onClick={() => chooseMain("Main 1")}
               >
                 Main 1
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg font-semibold border transition text-sm text-left ${
+                  main === "Main 2"
+                    ? "bg-neutral-900 text-white border-neutral-900"
+                    : "bg-neutral-100 text-neutral-900 border-neutral-300 hover:bg-neutral-200"
+                }`}
+                onClick={() => chooseMain("Main 2")}
+              >
+                Main 2
               </button>
             </div>
             {/* Footer */}
