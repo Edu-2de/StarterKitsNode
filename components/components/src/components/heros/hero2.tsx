@@ -23,17 +23,17 @@ export default function Hero2() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentItem = carrouselItems[currentIndex];
 
-  const prevSlide = () => {
+  const prevSlide = React.useCallback(() => {
     setCurrentIndex((prev) =>
       prev === 0 ? carrouselItems.length - 1 : prev - 1
     );
-  };
+  }, [carrouselItems.length]);
 
-  const nextSlide = () => {
+  const nextSlide = React.useCallback(() => {
     setCurrentIndex((prev) =>
       prev === carrouselItems.length - 1 ? 0 : prev + 1
     );
-  };
+  }, [carrouselItems.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -59,7 +59,7 @@ export default function Hero2() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [nextSlide, prevSlide]);
 
   return (
     <section className="relative w-screen min-h-[60vh] md:min-h-[70vh] flex items-center justify-center bg-neutral-100 px-0 py-0 mt-24 md:mt-20">
