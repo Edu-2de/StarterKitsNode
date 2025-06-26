@@ -80,7 +80,7 @@ export default function Main3() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-neutral-50 pt-10 pb-20">
+    <main className="w-full min-h-screen bg-neutral-100 pt-10 pb-20">
       {/* Header fictício da área estudantil */}
       <header className="max-w-6xl mx-auto px-4 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
@@ -100,151 +100,157 @@ export default function Main3() {
 
       {/* Carrossel de Avisos */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
-        <h2 className="text-2xl font-bold text-neutral-900 mb-4">Avisos</h2>
-        <div className="relative">
-          <div
-            ref={avisoRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
-            style={{ scrollBehavior: "smooth" }}
-          >
-            {avisos.map((aviso, idx) => (
-              <div
-                key={aviso.id}
-                className={`min-w-[320px] max-w-[320px] bg-white border border-neutral-200 rounded-xl shadow p-6 flex flex-col justify-between transition-all duration-300 ${
-                  idx === avisoIndex ? "scale-105 shadow-lg border-neutral-300" : "opacity-70"
-                }`}
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-neutral-800 mb-1">{aviso.titulo}</h3>
-                  <span className="text-sm text-neutral-500">{new Date(aviso.data).toLocaleDateString()}</span>
-                  <p className="text-neutral-700 mt-2">{aviso.descricao}</p>
+        <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
+          <h2 className="text-2xl font-bold text-neutral-900 mb-4">Avisos</h2>
+          <div className="relative">
+            <div
+              ref={avisoRef}
+              className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {avisos.map((aviso, idx) => (
+                <div
+                  key={aviso.id}
+                  className={`min-w-[320px] max-w-[320px] bg-neutral-50 border border-neutral-200 rounded-xl shadow p-6 flex flex-col justify-between transition-all duration-300 ${
+                    idx === avisoIndex ? "scale-105 shadow-lg border-neutral-300" : "opacity-70"
+                  }`}
+                >
+                  <div>
+                    <h3 className="text-lg font-semibold text-neutral-800 mb-1">{aviso.titulo}</h3>
+                    <span className="text-sm text-neutral-500">{new Date(aviso.data).toLocaleDateString()}</span>
+                    <p className="text-neutral-700 mt-2">{aviso.descricao}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          {/* Indicadores */}
-          <div className="flex justify-center gap-2 mt-4">
-            {avisos.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setAvisoIndex(idx)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  idx === avisoIndex ? "bg-neutral-900" : "bg-neutral-300"
-                }`}
-                aria-label={`Ir para aviso ${idx + 1}`}
-              />
-            ))}
+              ))}
+            </div>
+            {/* Indicadores */}
+            <div className="flex justify-center gap-2 mt-4">
+              {avisos.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setAvisoIndex(idx)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    idx === avisoIndex ? "bg-neutral-900" : "bg-neutral-300"
+                  }`}
+                  aria-label={`Ir para aviso ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Cursos e Progresso */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
-        <h2 className="text-2xl font-bold text-neutral-900 mb-4">Meus Cursos</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {cursosFiltrados.length === 0 ? (
-            <div className="col-span-full text-neutral-500 text-center py-12 text-lg">
-              Nenhum curso encontrado.
-            </div>
-          ) : (
-            cursosFiltrados.map(curso => (
-              <div key={curso.id} className="rounded-2xl bg-white shadow border border-neutral-200 p-6 flex flex-col items-start transition hover:shadow-lg hover:border-neutral-300">
-                <h3 className="text-xl font-semibold text-neutral-800 mb-1">{curso.nome}</h3>
-                <span className="text-sm text-neutral-500 mb-2">{curso.professor}</span>
-                <div className="w-full bg-neutral-100 rounded-full h-3 mb-2 mt-2">
-                  <div
-                    className="bg-neutral-800 h-3 rounded-full transition-all duration-500"
-                    style={{ width: `${curso.progresso}%` }}
-                  />
-                </div>
-                <span className="text-neutral-700 text-sm">{curso.progresso}% concluído</span>
+        <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
+          <h2 className="text-2xl font-bold text-neutral-900 mb-4">Meus Cursos</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {cursosFiltrados.length === 0 ? (
+              <div className="col-span-full text-neutral-500 text-center py-12 text-lg">
+                Nenhum curso encontrado.
               </div>
-            ))
-          )}
+            ) : (
+              cursosFiltrados.map(curso => (
+                <div key={curso.id} className="rounded-2xl bg-neutral-50 shadow border border-neutral-200 p-6 flex flex-col items-start transition hover:shadow-lg hover:border-neutral-300">
+                  <h3 className="text-xl font-semibold text-neutral-800 mb-1">{curso.nome}</h3>
+                  <span className="text-sm text-neutral-500 mb-2">{curso.professor}</span>
+                  <div className="w-full bg-neutral-200 rounded-full h-3 mb-2 mt-2">
+                    <div
+                      className="bg-neutral-800 h-3 rounded-full transition-all duration-500"
+                      style={{ width: `${curso.progresso}%` }}
+                    />
+                  </div>
+                  <span className="text-neutral-700 text-sm">{curso.progresso}% concluído</span>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </section>
 
       {/* Atividades */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-          <h2 className="text-2xl font-bold text-neutral-900">Atividades</h2>
-          <div className="flex gap-2 flex-wrap">
-            <input
-              type="text"
-              value={novaAtividade.curso}
-              onChange={e => setNovaAtividade({ ...novaAtividade, curso: e.target.value })}
-              placeholder="Curso"
-              className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
-            />
-            <input
-              type="text"
-              value={novaAtividade.titulo}
-              onChange={e => setNovaAtividade({ ...novaAtividade, titulo: e.target.value })}
-              placeholder="Título"
-              className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
-            />
-            <input
-              type="date"
-              value={novaAtividade.prazo}
-              onChange={e => setNovaAtividade({ ...novaAtividade, prazo: e.target.value })}
-              className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
-            />
-            <button
-              onClick={adicionarAtividade}
-              className="px-4 py-1 bg-neutral-900 text-white rounded hover:bg-neutral-700 transition"
-            >
-              Adicionar
-            </button>
+        <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+            <h2 className="text-2xl font-bold text-neutral-900">Atividades</h2>
+            <div className="flex gap-2 flex-wrap">
+              <input
+                type="text"
+                value={novaAtividade.curso}
+                onChange={e => setNovaAtividade({ ...novaAtividade, curso: e.target.value })}
+                placeholder="Curso"
+                className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
+              />
+              <input
+                type="text"
+                value={novaAtividade.titulo}
+                onChange={e => setNovaAtividade({ ...novaAtividade, titulo: e.target.value })}
+                placeholder="Título"
+                className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
+              />
+              <input
+                type="date"
+                value={novaAtividade.prazo}
+                onChange={e => setNovaAtividade({ ...novaAtividade, prazo: e.target.value })}
+                className="px-3 py-1 rounded border border-neutral-300 bg-white/90 text-neutral-900 focus:ring-2 focus:ring-neutral-400"
+              />
+              <button
+                onClick={adicionarAtividade}
+                className="px-4 py-1 bg-neutral-900 text-white rounded hover:bg-neutral-700 transition"
+              >
+                Adicionar
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-xl shadow border border-neutral-200">
-            <thead>
-              <tr>
-                <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Curso</th>
-                <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Atividade</th>
-                <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Prazo</th>
-                <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Status</th>
-                <th className="py-3 px-4"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {atividadesVisiveis.length === 0 ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-neutral-50 rounded-xl shadow border border-neutral-200">
+              <thead>
                 <tr>
-                  <td colSpan={5} className="text-neutral-500 text-center py-8">
-                    Nenhuma atividade cadastrada.
-                  </td>
+                  <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Curso</th>
+                  <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Atividade</th>
+                  <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Prazo</th>
+                  <th className="py-3 px-4 text-left text-neutral-700 font-semibold">Status</th>
+                  <th className="py-3 px-4"></th>
                 </tr>
-              ) : (
-                atividadesVisiveis.map(atividade => (
-                  <tr key={atividade.id} className="border-t border-neutral-100 hover:bg-neutral-50 transition">
-                    <td className="py-3 px-4">{atividade.curso}</td>
-                    <td className="py-3 px-4">{atividade.titulo}</td>
-                    <td className="py-3 px-4">{new Date(atividade.prazo).toLocaleDateString()}</td>
-                    <td className="py-3 px-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        atividade.status === "concluída"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}>
-                        {atividade.status}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      {atividade.status !== "concluída" && (
-                        <button
-                          onClick={() => concluirAtividade(atividade.id)}
-                          className="px-3 py-1 bg-neutral-900 text-white rounded hover:bg-neutral-700 transition text-xs"
-                        >
-                          Marcar como concluída
-                        </button>
-                      )}
+              </thead>
+              <tbody>
+                {atividadesVisiveis.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-neutral-500 text-center py-8">
+                      Nenhuma atividade cadastrada.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  atividadesVisiveis.map(atividade => (
+                    <tr key={atividade.id} className="border-t border-neutral-100 hover:bg-neutral-100 transition text-gray-600">
+                      <td className="py-3 px-4">{atividade.curso}</td>
+                      <td className="py-3 px-4">{atividade.titulo}</td>
+                      <td className="py-3 px-4">{new Date(atividade.prazo).toLocaleDateString()}</td>
+                      <td className="py-3 px-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          atividade.status === "concluída"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}>
+                          {atividade.status}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        {atividade.status !== "concluída" && (
+                          <button
+                            onClick={() => concluirAtividade(atividade.id)}
+                            className="px-3 py-1 bg-neutral-900 text-white rounded hover:bg-neutral-700 transition text-xs"
+                          >
+                            Marcar como concluída
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
