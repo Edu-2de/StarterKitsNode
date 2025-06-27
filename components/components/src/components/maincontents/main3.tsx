@@ -74,7 +74,6 @@ export default function Main3() {
 
   return (
     <main className="w-full min-h-screen bg-neutral-100 pt-10 pb-20">
-      {/* Header fictício da área estudantil */}
       <header className="max-w-6xl mx-auto px-4 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-1">Bem-vindo(a), Estudante!</h1>
@@ -91,7 +90,6 @@ export default function Main3() {
         </div>
       </header>
 
-      {/* Carrossel de Avisos */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
         <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
           <h2 className="text-2xl font-bold text-neutral-900 mb-4">Avisos</h2>
@@ -116,7 +114,6 @@ export default function Main3() {
                 </div>
               ))}
             </div>
-            {/* Indicadores */}
             <div className="flex justify-center gap-2 mt-4">
               {avisos.map((_, idx) => (
                 <button
@@ -133,7 +130,6 @@ export default function Main3() {
         </div>
       </section>
 
-      {/* Cursos e Progresso */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
         <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
           <h2 className="text-2xl font-bold text-neutral-900 mb-4">Meus Cursos</h2>
@@ -161,7 +157,6 @@ export default function Main3() {
         </div>
       </section>
 
-      {/* Atividades */}
       <section className="max-w-6xl mx-auto px-4 mb-12">
         <div className="rounded-2xl bg-white/80 shadow border border-neutral-200 p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
@@ -247,7 +242,6 @@ export default function Main3() {
         </div>
       </section>
 
-      {/* Estilos extras */}
       <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
