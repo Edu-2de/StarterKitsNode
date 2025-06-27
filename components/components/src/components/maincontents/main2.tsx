@@ -160,8 +160,7 @@ export default function Main2() {
         </div>
       </section>
 
-      {/* Estilos extras */}
-      <style>{`
+\      <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
