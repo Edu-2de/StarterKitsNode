@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-// Dados fictícios para exemplo
-// Dados fictícios para exemplo
 const cursos = [
   { id: 1, nome: "Matemática", professor: "Prof. Ana Souza", progresso: 80 },
   { id: 2, nome: "História", professor: "Prof. Carlos Lima", progresso: 55 },
