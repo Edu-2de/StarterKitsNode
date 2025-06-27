@@ -22,20 +22,17 @@ const atividades = [
 ];
 
 export default function Main3() {
-  // Estado para carrossel de avisos
+
   const [avisoIndex, setAvisoIndex] = useState(0);
   const avisoRef = useRef<HTMLDivElement>(null);
 
-  // Estado para filtro de cursos
   const [filtro, setFiltro] = useState("");
   const cursosFiltrados = cursos.filter(c =>
     c.nome.toLowerCase().includes(filtro.toLowerCase())
   );
 
-  // Estado para atividades
   const [atividadesVisiveis, setAtividadesVisiveis] = useState(atividades);
 
-  // Carrossel automático de avisos
   useEffect(() => {
     const interval = setInterval(() => {
       setAvisoIndex((prev) => (prev + 1) % avisos.length);
@@ -43,7 +40,6 @@ export default function Main3() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scroll suave no carrossel de avisos
   useEffect(() => {
     if (avisoRef.current) {
       avisoRef.current.scrollTo({
@@ -53,14 +49,12 @@ export default function Main3() {
     }
   }, [avisoIndex]);
 
-  // Marcar atividade como concluída
   const concluirAtividade = (id: number) => {
     setAtividadesVisiveis(atividadesVisiveis.map(a =>
       a.id === id ? { ...a, status: "concluída" } : a
     ));
   };
 
-  // Adicionar nova atividade (exemplo de interatividade extra)
   const [novaAtividade, setNovaAtividade] = useState({ curso: "", titulo: "", prazo: "" });
   const adicionarAtividade = () => {
     if (novaAtividade.curso && novaAtividade.titulo && novaAtividade.prazo) {
